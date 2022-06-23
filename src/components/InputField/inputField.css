@@ -11,7 +11,7 @@
 }
 
 .inputField > input, .inputField > textarea {
-    color: #CACACA;
+    color: aliceblue;
     background-color: #636262;
     border: none;
     border-radius: 8px;
@@ -29,4 +29,8 @@
 
 .inputField > input:focus, .inputField > textarea:focus {
     outline: none;
+}
+
+.inputField > input::placeholder, .inputField > textarea::placeholder {
+    color: #CACACA;
 }
