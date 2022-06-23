@@ -9,14 +9,14 @@ export default class GeneralInfo extends React.Component {
         return (
             <Section sectionTitle="General Information">
                 <form className="cv-form">
-                    <InputField inputLabel="Full Name" isRequired={true} />
+                    <InputField label="Full Name" isRequired={true} />
                     <div className="flex-row">
-                        <InputField inputLabel="Email" isRequired={true} inputType={"email"} />
-                        <InputField inputLabel="Phone Number" inputType={"tel"} />
+                        <InputField label="Email" isRequired={true} type={"email"} />
+                        <InputField label="Phone Number" type={"tel"} placeholder="+2349012345678" />
                     </div>
                     <div className="flex-row">
-                        <InputField inputLabel="LinkedIn" />
-                        <InputField inputLabel="Twitter" />
+                        <InputField label="LinkedIn URL" type={"url"} placeholder="https://linkedin.com/in/mary-sue" value="https://" />
+                        <InputField label="Twitter URL" type={"url"} placeholder="https://twitter.com/marysue" value="https://" />
                     </div>
                     <TextArea label="Personal Description" />
                     <Button className="update-btn" btnType="submit">Update</Button>
