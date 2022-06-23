@@ -25,7 +25,7 @@ export default class Education extends React.Component {
                     </div>
                     <div className="flex-row">
                         <InputField isRequired={true} label="From" type="date" />
-                        <InputField isRequired={true} label="To" type="date" />
+                        <InputField isRequired={true} label="To" placeholder="Year/Ongoing" />
                     </div>
                     <Button className="add-btn" btnType="submit">Add</Button>
                     <Button className="delete-btn" btnType="submit">Delete</Button>
