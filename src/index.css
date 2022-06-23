@@ -3,11 +3,11 @@
 
 html {
     box-sizing: border-box;
-    font-family: 'Source Sans Pro', sans-serif;
     height: 100%;
 }
 
 *, *::after, *::before {
+    font-family: 'Source Sans Pro', sans-serif;
     box-sizing: inherit;
     margin: 0;
     padding: 0;
