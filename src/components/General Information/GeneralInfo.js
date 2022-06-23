@@ -1,6 +1,7 @@
 import React from "react";
 import Section from "../Section/Section";
-import InputField from "../InputField/InputField";
+import { InputField, TextArea } from "../InputField/InputField";
+import Button from "../Button/Button";
 import "./generalInfo.css";
 
 export default class GeneralInfo extends React.Component {
@@ -17,6 +18,8 @@ export default class GeneralInfo extends React.Component {
                         <InputField inputLabel="LinkedIn" />
                         <InputField inputLabel="Twitter" />
                     </div>
+                    <TextArea label="Personal Description" />
+                    <Button className="update-btn" btnType="submit">Update</Button>
                 </form>
             </Section>
         )

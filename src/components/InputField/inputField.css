@@ -10,16 +10,23 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.inputField > input {
+.inputField > input, .inputField > textarea {
     color: #CACACA;
     background-color: #636262;
     border: none;
     border-radius: 8px;
-    height: 2rem;
-    padding-left: 5px;
     font-weight: bold;
+    padding-left: 5px;
 }
 
-.inputField > input:focus {
+.inputField > input {
+    height: 2rem;
+}
+
+.inputField > textarea {
+    min-height: 5rem;
+}
+
+.inputField > input:focus, .inputField > textarea:focus {
     outline: none;
 }
