@@ -8,3 +8,11 @@
 .update-btn {
     background-color: rgb(212, 247, 189);
 }
+
+.add-btn {
+    background-color: lightgreen;
+}
+
+.delete-btn {
+    background-color: crimson;
+}

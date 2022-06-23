@@ -2,7 +2,6 @@ import React from "react";
 import Section from "../Section/Section";
 import { InputField, TextArea } from "../InputField/InputField";
 import Button from "../Button/Button";
-import "./generalInfo.css";
 
 export default class GeneralInfo extends React.Component {
     render() {

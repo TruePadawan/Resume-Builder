@@ -2,7 +2,7 @@ import React from "react";
 import "./inputField.css";
 
 /*
-    Input Field Props - isRequired, type, label, placeholder, value
+    Input Field Props - isRequired, type, label, placeholder, value, list
 */
 export class InputField extends React.Component {
     render() {
@@ -11,13 +11,16 @@ export class InputField extends React.Component {
         const inputLabel = this.props.label;
         const placeholder = this.props.placeholder || "";
         const value = this.props.value || "";
+        const list = this.props.listID || "";
+        const dataList = this.props.list || "";
 
         if (isInputRequired)
         {
             return (
                 <span className="inputField">
                     <label htmlFor={inputLabel}>{inputLabel}</label>
-                    <input id={inputLabel} type={inputType} required placeholder={placeholder} defaultValue={value} />
+                    <input id={inputLabel} type={inputType} required placeholder={placeholder} defaultValue={value} list={list} />
+                    {dataList !== "" && dataList}
                 </span>
             );
         }
@@ -25,6 +28,7 @@ export class InputField extends React.Component {
           <span className="inputField">
             <label htmlFor={inputLabel}>{inputLabel}</label>
             <input id={inputLabel} type={inputType} placeholder={placeholder} defaultValue={value} />
+            {dataList !== "" && dataList}
           </span>
         );
     }
