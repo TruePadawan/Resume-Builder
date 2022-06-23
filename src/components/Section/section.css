@@ -1,0 +1,23 @@
+.section {
+    background-color: #7E7E7E;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+.sectionHead {
+    color: white;
+    background-color: #676767;
+}
+
+.sectionHead > h2 {
+    padding-left: 10px;
+    font-weight: normal;
+}
+
+.sectionBody {
+    padding: 5px 10px;
+}

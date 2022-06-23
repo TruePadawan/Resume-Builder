@@ -1,0 +1,25 @@
+.inputField {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputField > label {
+    color: white;
+    font-weight: normal;
+    font-family: 'Poppins', sans-serif;
+}
+
+.inputField > input {
+    color: #CACACA;
+    background-color: #636262;
+    border: none;
+    border-radius: 8px;
+    height: 2rem;
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+.inputField > input:focus {
+    outline: none;
+}

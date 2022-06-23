@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+html {
+    box-sizing: border-box;
+    font-family: 'Source Sans Pro', sans-serif;
+    height: 100%;
+}
+
+*, *::after, *::before {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+body, #root {
+    height: 100%;
+    background-color: #DADADA;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+}
