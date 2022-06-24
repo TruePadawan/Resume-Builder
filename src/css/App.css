@@ -22,9 +22,70 @@ ul {
     gap: 2rem;
 }
 
+.cv-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 4px;
+}
+
+.update-btn {
+    background-color: rgb(212, 247, 189);
+}
+
+.update-btn:hover {
+    background-color: rgb(172, 205, 150);
+}
+
+.update-btn:active {
+    background-color: rgb(127, 151, 111);
+}
+
+.add-btn {
+    background-color: lightgreen;
+}
+
+.add-btn:hover {
+    background-color: rgb(122, 199, 122);
+}
+
+.add-btn:active {
+    background-color: rgb(67, 118, 67);
+}
+
+.delete-btn {
+    background-color: #D95437;
+}
+
+.delete-btn:hover {
+    background-color: #ab442d;
+}
+
+.delete-btn:active {
+    background-color: #60291c;
+}
+
+
+.head {
+    padding: 5px;
+    background-color: rgba(255, 183, 74, 0.67);
+}
+
+.full-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+}
+
 .cv-preview {
     padding: 3rem 3rem 3rem 3rem;
+}
+
+.preview {
+    box-shadow: -3px -3px 10px rgb(85, 85, 85);
     background-color: #F0F0F0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .cv-data {
@@ -61,6 +122,7 @@ ul {
 
 .contact > li {
     flex-basis: 30%;
+    flex-grow: 1;
 }
 
 .description {
