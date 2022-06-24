@@ -14,7 +14,7 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            fullName : "Full Name",
+            fullName : "",
             email : "",
             phoneNumber : "",
             linkedIn : "",
@@ -152,20 +152,36 @@ class App extends React.Component {
                   <div className="general">
                     <ul className="contact">
                       <li>
-                        <img src={PhoneImg} alt="phone" />
-                        <span className="phone-number">{this.state.phoneNumber}</span>
+                        {this.state.email && (
+                          <>
+                            <img src={MailImg} alt="email" />
+                            <span className="email">{this.state.email}</span>
+                          </>
+                        )}
                       </li>
                       <li>
-                        <img src={LinkedInImg} alt="linkedin" />
-                        <span className="linkedin-url">{this.state.linkedIn}</span>
+                        {this.state.phoneNumber && (
+                          <>
+                            <img src={PhoneImg} alt="phone" />
+                            <span className="phone-number">{this.state.phoneNumber}</span>
+                          </>  
+                        )}
                       </li>
                       <li>
-                        <img src={MailImg} alt="email" />
-                        <span className="email">{this.state.email}</span>
+                          {this.state.linkedIn && (
+                            <>
+                              <img src={LinkedInImg} alt="linkedin" />
+                              <span className="linkedin-url">{this.state.linkedIn}</span>
+                            </>
+                          )}
                       </li>
                       <li>
-                        <img src={TwitterImg} alt="twitter" />
-                        <span className="twitter-url">{this.state.twitter}</span>
+                        {this.state.twitter && (
+                          <>
+                            <img src={TwitterImg} alt="twitter" />
+                            <span className="twitter-url">{this.state.twitter}</span>
+                          </>
+                        )}
                       </li>
                     </ul>
                     <p className="description">
@@ -180,8 +196,8 @@ class App extends React.Component {
                   <section className="education" aria-label="Education">
                     <h2 className="section-title">Education</h2>
                     <hr />
-                    <ul className="education-list">
-                      {item}
+                    <ul className="list">
+                      {/* {item} */}
                         {/* <li className="item">
                           <span className="timeframe">2015 - Ongoing</span>
                           <ul className="details">
@@ -191,6 +207,11 @@ class App extends React.Component {
                           </ul>
                         </li> */}
                     </ul>
+                  </section>
+                  <section className="practical-exp" aria-label="Practical Experience">
+                    <h2 className="section-title">Practical Experience</h2>
+                    <hr />
+                    <ul className="list"></ul>
                   </section>
                 </div>
 
