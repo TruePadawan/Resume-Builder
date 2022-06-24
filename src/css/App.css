@@ -27,6 +27,12 @@ main {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    /* overflow-y: scroll; */
-    /* position: sticky; */
+}
+
+.generate-pdf:hover {
+    background-color: rgb(183, 177, 177);
+}
+
+.generate-pdf:active {
+    background-color: rgb(152, 150, 150);
 }
