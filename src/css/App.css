@@ -12,6 +12,10 @@ main {
     grid-auto-rows: 100%;
 }
 
+ul {
+    list-style: none;
+}
+
 .flex-row {
     display: flex;
     justify-content: space-between;
@@ -35,4 +39,25 @@ main {
 
 .generate-pdf:active {
     background-color: rgb(152, 150, 150);
+}
+
+.general {
+    padding: 12px 20px;
+}
+
+.contact {
+    color: #818181;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 50px;
+    justify-content: space-between;
+}
+
+.contact img {
+    vertical-align: -7px;
+    margin-right: 4px;
+}
+
+.contact > li {
+    flex-basis: 30%;
 }
