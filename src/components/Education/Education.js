@@ -18,7 +18,7 @@ export default class Education extends React.Component {
         return (
             <Section sectionTitle="Education">
                 <form className="cv-form">
-                    <InputField isRequired={true} label="University"/>
+                    <InputField isRequired={true} label="University(in full)"/>
                     <div className="flex-row">
                         <InputField isRequired={true} label="Course" />
                         <InputField isRequired={true} label="Degree Type" placeholder="Bachelors" listID="degrees" list={list} />

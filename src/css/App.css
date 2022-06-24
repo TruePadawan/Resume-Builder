@@ -23,6 +23,7 @@ ul {
 }
 
 .cv-preview {
+    padding: 3rem 3rem 3rem 3rem;
     background-color: #F0F0F0;
 }
 
@@ -41,7 +42,7 @@ ul {
     background-color: rgb(152, 150, 150);
 }
 
-.general {
+.general, .education {
     padding: 12px 20px;
 }
 
@@ -60,4 +61,42 @@ ul {
 
 .contact > li {
     flex-basis: 30%;
+}
+
+.description {
+    margin-top: 1%;
+    text-align: justify;
+}
+
+.education * {
+    font-family: 'Poppins', sans-serif;
+}
+
+hr {
+    margin-bottom: 7px;
+}
+
+.section-title {
+    font-weight: normal;
+    font-size: 2rem;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(219, 219, 219, 0.32);
+    padding: 5px;
+}
+
+.timeframe, .details {
+    flex-basis: 50%;
+}
+
+.school {
+    font-size: 24px;
+}
+
+.course, .degree-type {
+    font-size: 1.2rem;
+    color: #676767;
 }
