@@ -9,27 +9,31 @@ import LinkedInImg from "./images/linkedin.png";
 import MailImg from "./images/mail.png";
 
 import "./css/App.css";
-import "./css/main.css";
 
 class App extends React.Component {
     constructor() {
         super();
         this.state = {
             fullName : "Full Name",
+            email : "",
+            phoneNumber : "",
+            linkedIn : "",
+            twitter : "",
+            desc : ""
         }
 
-        this.fullName = React.createRef();
-        this.email = React.createRef();
-        this.number = React.createRef();
-        this.linkedin = React.createRef();
-        this.twitter = React.createRef();
-        this.description = React.createRef();
+        this.fullNameInputRef = React.createRef();
+        this.emailInputRef = React.createRef();
+        this.phoneInputRef = React.createRef();
+        this.linkediInputRefn = React.createRef();
+        this.twitterInputRef = React.createRef();
+        this.descInputRef = React.createRef();
 
         this.university = React.createRef();
         this.course = React.createRef();
         this.degreeType = React.createRef();
-        this.eduFrom = React.createContext();
-        this.eduTo = React.createContext();
+        this.eduFrom = React.createRef();
+        this.eduTo = React.createRef();
 
         this.company = React.createRef();
         this.position = React.createRef();
@@ -57,7 +61,13 @@ class App extends React.Component {
     updateGeneralInfo = (e) => {
       e.preventDefault();
       this.setState((latest) => {
-        latest.fullName = this.fullName.current.value;
+        latest.fullName = this.fullNameInputRef.current.value;
+        latest.email = this.emailInputRef.current.value;
+        latest.phoneNumber = this.phoneInputRef.current.value;
+        latest.linkedIn = this.linkediInputRefn.current.value;
+        latest.twitter = this.twitterInputRef.current.value;
+        latest.desc = this.descInputRef.current.value;
+
         return latest;
       });
     }
@@ -88,16 +98,16 @@ class App extends React.Component {
               <section className="cv-data">
               <Section sectionTitle="General Information">
                 <form className="cv-form" onSubmit={this.updateGeneralInfo}>
-                    <InputField label="Full Name" isRequired={true} compRef={this.fullName} />
+                    <InputField label="Full Name" isRequired={true} compRef={this.fullNameInputRef} />
                     <div className="flex-row">
-                        <InputField label="Email" isRequired={true} type={"email"} />
-                        <InputField label="Phone Number" type={"tel"} placeholder="+2349012345678" />
+                        <InputField label="Email" isRequired={true} type={"email"} compRef={this.emailInputRef} />
+                        <InputField label="Phone Number" type={"tel"} placeholder="+2349012345678" compRef={this.phoneInputRef} />
                     </div>
                     <div className="flex-row">
-                        <InputField label="LinkedIn URL" type={"url"} placeholder="https://linkedin.com/in/mary-sue" />
-                        <InputField label="Twitter URL" type={"url"} placeholder="https://twitter.com/marysue" />
+                        <InputField label="LinkedIn URL" type={"url"} placeholder="https://linkedin.com/in/mary-sue" compRef={this.linkediInputRefn} />
+                        <InputField label="Twitter URL" type={"url"} placeholder="https://twitter.com/marysue" compRef={this.twitterInputRef} />
                     </div>
-                    <TextArea label="Personal Description" />
+                    <TextArea label="Personal Description" compRef={this.descInputRef} />
                     <Button className="update-btn" btnType="submit">Update</Button>
                 </form>
               </Section>
@@ -143,19 +153,19 @@ class App extends React.Component {
                     <ul className="contact">
                       <li>
                         <img src={PhoneImg} alt="phone" />
-                        <span className="phone-number"></span>
+                        <span className="phone-number">{this.state.phoneNumber}</span>
                       </li>
                       <li>
                         <img src={LinkedInImg} alt="linkedin" />
-                        <span className="linkedin-url"></span>
+                        <span className="linkedin-url">{this.state.linkedIn}</span>
                       </li>
                       <li>
                         <img src={MailImg} alt="email" />
-                        <span className="email"></span>
+                        <span className="email">{this.state.email}</span>
                       </li>
                       <li>
                         <img src={TwitterImg} alt="twitter" />
-                        <span className="twitter-url"></span>
+                        <span className="twitter-url">{this.state.twitter}</span>
                       </li>
                     </ul>
                     <p className="description">
