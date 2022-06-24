@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import Button from "./components/Button/Button";
-import Education from "./components/Education/Education";
-import GeneralInfo from "./components/General Information/GeneralInfo";
-import PracticalExp from "./components/Practical Experience/PracticalExperience";
+import Section from "./components/Section/Section";
+import { InputField, TextArea } from "./components/InputField/InputField";
 
 import PhoneImg from "./images/phone.png";
 import TwitterImg from "./images/twitter.png";
@@ -12,12 +11,31 @@ import MailImg from "./images/mail.png";
 import "./css/App.css";
 import "./css/main.css";
 
-class App extends Component {
+class App extends React.Component {
     constructor() {
         super();
         this.state = {
             fullName : "Full Name",
         }
+
+        this.fullName = React.createRef();
+        this.email = React.createRef();
+        this.number = React.createRef();
+        this.linkedin = React.createRef();
+        this.twitter = React.createRef();
+        this.description = React.createRef();
+
+        this.university = React.createRef();
+        this.course = React.createRef();
+        this.degreeType = React.createRef();
+        this.eduFrom = React.createContext();
+        this.eduTo = React.createContext();
+
+        this.company = React.createRef();
+        this.position = React.createRef();
+        this.practicalFrom = React.createRef();
+        this.practicalTo = React.createRef();
+        this.highlights = React.createRef();
     }
 
     buildEducationItem = (data) => {
@@ -36,8 +54,26 @@ class App extends Component {
       );
     }
 
+    updateGeneralInfo = (e) => {
+      e.preventDefault();
+      this.setState((latest) => {
+        latest.fullName = this.fullName.current.value;
+        return latest;
+      });
+    }
+
     render() {
         const fullName = this.state.fullName;
+        const list = (
+          <datalist id="degrees">
+              <option value="Bachelor's" />
+              <option value="Associate" />
+              <option value="Master's" />
+              <option value="Doctoral" />
+              <option value="Professional" />
+          </datalist>
+      );
+
         const item = this.buildEducationItem({
           from : 2015,
           school : "University Of Lagos",
@@ -50,9 +86,51 @@ class App extends Component {
             <h1>CV Builder</h1>
             <main>
               <section className="cv-data">
-                <GeneralInfo />
-                <Education />
-                <PracticalExp />
+              <Section sectionTitle="General Information">
+                <form className="cv-form" onSubmit={this.updateGeneralInfo}>
+                    <InputField label="Full Name" isRequired={true} compRef={this.fullName} />
+                    <div className="flex-row">
+                        <InputField label="Email" isRequired={true} type={"email"} />
+                        <InputField label="Phone Number" type={"tel"} placeholder="+2349012345678" />
+                    </div>
+                    <div className="flex-row">
+                        <InputField label="LinkedIn URL" type={"url"} placeholder="https://linkedin.com/in/mary-sue" />
+                        <InputField label="Twitter URL" type={"url"} placeholder="https://twitter.com/marysue" />
+                    </div>
+                    <TextArea label="Personal Description" />
+                    <Button className="update-btn" btnType="submit">Update</Button>
+                </form>
+              </Section>
+              <Section sectionTitle="Education">
+                  <form className="cv-form">
+                      <InputField isRequired={true} label="University(in full)"/>
+                      <div className="flex-row">
+                          <InputField isRequired={true} label="Course" />
+                          <InputField isRequired={true} label="Degree Type" placeholder="Bachelors" listID="degrees" list={list} />
+                      </div>
+                      <div className="flex-row">
+                          <InputField isRequired={true} label="From" type="date" />
+                          <InputField isRequired={true} label="To" placeholder="Year/Ongoing" />
+                      </div>
+                      <Button className="add-btn" btnType="submit">Add</Button>
+                      <Button className="delete-btn" btnType="submit">Delete</Button>
+                  </form>
+              </Section>
+              <Section sectionTitle="Practical Experience">
+                <form className="cv-form">
+                    <div className="flex-row">
+                        <InputField isRequired={true} label="Company" />
+                        <InputField isRequired={true} label="Position" />
+                    </div>
+                    <div className="flex-row">
+                        <InputField isRequired={true} label="From" type="date" />
+                        <InputField label="To" placeholder="Year/Ongoing" />
+                    </div>
+                    <TextArea label="Highlights" />
+                    <Button className="add-btn">Add</Button>
+                    <Button className="delete-btn">Delete</Button>
+                </form>
+              </Section>
                 <Button className="generate-pdf">Generate PDF</Button>
               </section>
               <section className="cv-preview">
