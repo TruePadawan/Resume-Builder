@@ -128,12 +128,12 @@ class App extends React.Component {
                     label="Full Name*"
                     isRequired={true}
                     compRef={this.fullNameInputRef}
-                    value="Hermes Chigoziri"
+                    value="Sebastian Tao"
                   />
                   <InputField
                     label="Job Title"
                     compRef={this.jobTitleInputRef}
-                    value="Junior Software Developer"
+                    value="Apprentice Necromancer"
                   />
                 </div>
                 <div className="flex-row">
@@ -142,14 +142,14 @@ class App extends React.Component {
                     isRequired={true}
                     type={"email"}
                     compRef={this.emailInputRef}
-                    value="hermeschigoziri@gmail.com"
+                    value="sebastiantao@gmail.com"
                   />
                   <InputField
                     label="Phone Number"
                     type={"tel"}
                     placeholder="+2349012345678"
                     compRef={this.phoneInputRef}
-                    value="09018989515"
+                    value=""
                   />
                 </div>
                 <div className="flex-row">
@@ -158,14 +158,14 @@ class App extends React.Component {
                     type={"url"}
                     placeholder="https://linkedin.com/in/mary-sue"
                     compRef={this.linkedinInputRef}
-                    value="https://www.linkedin.com/in/hermes-chigoziri-919148204/"
+                    value="https://www.linkedin.com/in/sebastian-tao/"
                   />
                   <InputField
                     label="Personal Site"
                     type={"url"}
                     placeholder="https://marysue.com"
                     compRef={this.personalSiteInputRef}
-                    value="https://truepadawan.github.io/portfolio-remake/"
+                    value="https://sebastiantao.wiz"
                   />
                 </div>
                 <TextArea

@@ -95,7 +95,6 @@ main {
 
 .preview {
     width: max-content;
-    /* max-width: 615px; */
     box-shadow: -3px -3px 10px rgb(85, 85, 85);
     background-color: #F0F0F0;
     height: 100%;
@@ -117,7 +116,7 @@ main {
 }
 
 .contact {
-    color: #818181;
+    color: #373737;
     display: grid;
     grid-template-columns: repeat(2, max-content);
     grid-template-rows: repeat(2, max-content);
