@@ -77,18 +77,25 @@ main {
 
 
 .head {
-    padding: 5px;
+    padding: 5px 20px;
     background-color: rgba(255, 183, 74, 0.67);
-    height: 58px;
+    
 }
 
 .full-name {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     font-size: 2rem;
+    font-weight: 500;
+}
+
+.job-title {
+    font-size: 1.5rem;
+    color: rgb(78, 78, 78);
 }
 
 .preview {
-    max-width: 615px;
+    width: max-content;
+    /* max-width: 615px; */
     box-shadow: -3px -3px 10px rgb(85, 85, 85);
     background-color: #F0F0F0;
     height: 100%;
@@ -111,10 +118,10 @@ main {
 
 .contact {
     color: #818181;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 50px;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    grid-template-rows: repeat(2, max-content);
+    gap: 0.5rem 2rem;
 }
 
 .contact img {
@@ -129,6 +136,7 @@ main {
 
 .description {
     margin-top: 1%;
+    max-width: 700px;
     text-align: justify;
 }
 
@@ -143,6 +151,12 @@ hr {
 .section-title {
     font-weight: normal;
     font-size: 2rem;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .item {
