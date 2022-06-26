@@ -177,3 +177,8 @@ hr {
     font-size: 1.2rem;
     color: #676767;
 }
+
+.education-items input {
+    background-color: #ababab;
+    color: black;
+}

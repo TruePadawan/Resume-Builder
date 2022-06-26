@@ -27,3 +27,7 @@ body, #root {
 button {
     cursor: pointer;
 }
+
+hr {
+    margin-top: 10px;
+}

@@ -22,7 +22,7 @@ class App extends React.Component {
       personalSite: "",
       desc: "",
       eduItems: [],
-      itemRefs : {}
+      practicalExpItems: [],
     };
 
     this.degreeTypes = (
@@ -64,45 +64,33 @@ class App extends React.Component {
     this.eduToInputRef.current.value = "";
   };
 
-  buildEducationPreviewItem = (list) => {
-    return list.map((item) => {
-      let { id, from, to, school, course, degreeType } = item;
-      if (to === undefined || to === "") to = "Ongoing";
-
-      // const itemRef = React.createRef();
-      // this.setState((latest) => {
-      //   latest.itemRefs[id] = itemRef;
-      //   return { ...latest };
-      // });
-
-      return (
-        <li className="item" key={id} data-id={id}>
-          <span className="timeframe">{`${from} - ${to}`}</span>
-          <ul className="details">
-            <li className="school">{school}</li>
-            <li className="course">{course}</li>
-            <li className="degree-type">{`${degreeType} Degree`}</li>
-          </ul>
-        </li>
-      );
-    });
-  };
-
   buildEducationDataItem = (list) => {
-
     return list.map((item) => {
       let { id, from, to, school, course, degreeType } = item;
       if (to === undefined) to = "";
 
+      const updateSelf = (e) => {
+        e.preventDefault();
+
+        const from = e.target["3"].value;
+        const to = e.target["4"].value;
+        const school = e.target["0"].value;
+        const course = e.target["1"].value;
+        const degreeType = e.target["2"].value;
+
+        let itemData = { id, from, to, school, course, degreeType };
+        this.updateEducationItem(itemData);
+      };
+
+      const deleteSelf = () => {
+        this.deleteEducationItem(id);
+      };
+
       return (
         <li key={id}>
           <hr />
-          <form className="cv-form">
-            <InputField
-              isRequired={true}
-              label="University*"
-              value={school}
-            />
+          <form className="cv-form" onSubmit={updateSelf}>
+            <InputField isRequired={true} label="University*" value={school} />
             <div className="flex-row">
               <InputField isRequired={true} label="Course*" value={course} />
               <InputField
@@ -121,16 +109,33 @@ class App extends React.Component {
                 placeholder="Year"
                 value={from}
               />
-              <InputField
-                label="To(empty for ongoing)"
-                value={to}
-              />
+              <InputField label="To(empty for ongoing)" value={to} />
             </div>
-            <Button className="add-btn" btnType="submit">Update</Button>
-            <Button className="delete-btn" onClick={() => {
-              this.deleteEducationItem(id);
-            }}>Delete</Button>
+            <Button className="add-btn" btnType="submit">
+              Update
+            </Button>
+            <Button className="delete-btn" onClick={deleteSelf}>
+              Delete
+            </Button>
           </form>
+        </li>
+      );
+    });
+  };
+
+  buildEducationPreviewItem = (list) => {
+    return list.map((item) => {
+      let { id, from, to, school, course, degreeType } = item;
+      if (to === undefined || to === "") to = "Ongoing";
+
+      return (
+        <li className="item" key={id} data-id={id}>
+          <span className="timeframe">{`${from} - ${to}`}</span>
+          <ul className="details">
+            <li className="school">{school}</li>
+            <li className="course">{course}</li>
+            <li className="degree-type">{`${degreeType} Degree`}</li>
+          </ul>
         </li>
       );
     });
@@ -151,6 +156,20 @@ class App extends React.Component {
     });
   };
 
+  updateEducationItem = (data) => {
+    const { id } = data;
+    this.setState((latest) => {
+      const currentEduItems = [...latest.eduItems];
+      let itemIndex = currentEduItems.findIndex((item) => item.id === id);
+      currentEduItems[itemIndex] = data;
+
+      const updatedState = { ...latest };
+      updatedState.eduItems = currentEduItems;
+
+      return updatedState;
+    });
+  };
+
   addEducationItem = (e) => {
     e.preventDefault();
 
@@ -164,10 +183,8 @@ class App extends React.Component {
     const eduItem = { id, from, to, school, course, degreeType };
 
     this.setState((latest) => {
-      latest.eduItems = [...latest.eduItems, eduItem];
+      latest.eduItems = [eduItem, ...latest.eduItems];
       return { ...latest };
-    }, () => {
-      console.log(this.state.eduItems);
     });
 
     this.clearEducationInputFields();
@@ -182,13 +199,11 @@ class App extends React.Component {
 
   deleteEducationItem = (id) => {
     this.setState((latest) => {
-      const currentEduItems = [...(latest.eduItems)];
-      const updatedEduItems = currentEduItems.filter(item => item.id !== id);
+      const currentEduItems = [...latest.eduItems];
+      const updatedEduItems = currentEduItems.filter((item) => item.id !== id);
       const updatedState = { ...latest };
       updatedState.eduItems = updatedEduItems;
       return updatedState;
-    }, () => {
-      console.log(this.state.eduItems);
     });
   };
 
@@ -295,12 +310,12 @@ class App extends React.Component {
                     compRef={this.eduToInputRef}
                   />
                 </div>
-                <Button className="add-btn" btnType="submit">Add</Button>
+                <Button className="add-btn" btnType="submit">
+                  Add
+                </Button>
                 {/* <Button className="delete-btn">Delete</Button> */}
               </form>
-              <ul className="education-items">
-                {cvEducationData.dataSection}              
-              </ul>
+              <ul className="education-items">{cvEducationData.dataSection}</ul>
             </Section>
 
             <Section sectionTitle="Practical Experience">
@@ -315,7 +330,10 @@ class App extends React.Component {
                     label="From*"
                     placeholder="Year"
                   />
-                  <InputField label="To(empty for ongoing)" placeholder="Year" />
+                  <InputField
+                    label="To(empty for ongoing)"
+                    placeholder="Year"
+                  />
                 </div>
                 <TextArea label="Highlights" />
                 <Button className="add-btn">Add</Button>
@@ -327,7 +345,6 @@ class App extends React.Component {
           </section>
 
           <section className="cv-preview">
-
             <div className="preview">
               <div className="head">
                 <p className="full-name">{this.state.fullName}</p>
@@ -390,7 +407,6 @@ class App extends React.Component {
                 <ul className="list"></ul>
               </section>
             </div>
-
           </section>
         </main>
       </>
