@@ -22,7 +22,18 @@ class App extends React.Component {
       personalSite: "",
       desc: "",
       eduItems: [],
+      itemRefs : {}
     };
+
+    this.degreeTypes = (
+      <datalist id="degrees">
+        <option value="Bachelor's" />
+        <option value="Associate" />
+        <option value="Master's" />
+        <option value="Doctoral" />
+        <option value="Professional" />
+      </datalist>
+    );
 
     this.fullNameInputRef = React.createRef();
     this.jobTitleInputRef = React.createRef();
@@ -43,28 +54,91 @@ class App extends React.Component {
     this.practicalFromInputRef = React.createRef();
     this.practicalToInputRef = React.createRef();
     this.highlightsInputRef = React.createRef();
-
-    this.updateEducationInfo = this.updateEducationInfo.bind(this);
   }
 
-  buildEducationItem = (data) => {
-    let { id, from, to, school, course, degreeType } = data;
-    if (to === undefined) to = "Ongoing";
+  clearEducationInputFields = () => {
+    this.universityInputRef.current.value = "";
+    this.courseInputRef.current.value = "";
+    this.degreeTypeInputRef.current.value = "";
+    this.eduFromInputRef.current.value = "";
+    this.eduToInputRef.current.value = "";
+  };
 
-    return (
-      <li className="item" key={id}>
-        <span className="timeframe">{`${from} - ${to}`}</span>
-        <ul className="details">
-          <li className="school">{school}</li>
-          <li className="course">{course}</li>
-          <li className="degree-type">{`${degreeType} Degree`}</li>
-        </ul>
-      </li>
-    );
+  buildEducationPreviewItem = (list) => {
+    return list.map((item) => {
+      let { id, from, to, school, course, degreeType } = item;
+      if (to === undefined || to === "") to = "Ongoing";
+
+      // const itemRef = React.createRef();
+      // this.setState((latest) => {
+      //   latest.itemRefs[id] = itemRef;
+      //   return { ...latest };
+      // });
+
+      return (
+        <li className="item" key={id} data-id={id}>
+          <span className="timeframe">{`${from} - ${to}`}</span>
+          <ul className="details">
+            <li className="school">{school}</li>
+            <li className="course">{course}</li>
+            <li className="degree-type">{`${degreeType} Degree`}</li>
+          </ul>
+        </li>
+      );
+    });
+  };
+
+  buildEducationDataItem = (list) => {
+
+    return list.map((item) => {
+      let { id, from, to, school, course, degreeType } = item;
+      if (to === undefined) to = "";
+
+      return (
+        <li key={id}>
+          <hr />
+          <form className="cv-form">
+            <InputField
+              isRequired={true}
+              label="University*"
+              value={school}
+            />
+            <div className="flex-row">
+              <InputField isRequired={true} label="Course*" value={course} />
+              <InputField
+                isRequired={true}
+                label="Degree Type*"
+                placeholder="Bachelors"
+                listID="degrees"
+                list={this.degreeTypes}
+                value={degreeType}
+              />
+            </div>
+            <div className="flex-row">
+              <InputField
+                isRequired={true}
+                label="From*"
+                placeholder="Year"
+                value={from}
+              />
+              <InputField
+                label="To(empty for ongoing)"
+                value={to}
+              />
+            </div>
+            <Button className="add-btn" btnType="submit">Update</Button>
+            <Button className="delete-btn" onClick={() => {
+              this.deleteEducationItem(id);
+            }}>Delete</Button>
+          </form>
+        </li>
+      );
+    });
   };
 
   updateGeneralInfo = (e) => {
     e.preventDefault();
+
     this.setState((latest) => {
       latest.fullName = this.fullNameInputRef.current.value;
       latest.jobTitle = this.jobTitleInputRef.current.value;
@@ -73,49 +147,54 @@ class App extends React.Component {
       latest.linkedIn = this.linkedinInputRef.current.value;
       latest.personalSite = this.personalSiteInputRef.current.value;
       latest.desc = this.descInputRef.current.value;
-
       return latest;
     });
   };
 
-  updateEducationInfo = (e) => {
+  addEducationItem = (e) => {
     e.preventDefault();
+
+    const id = uuidv4();
     const from = +this.eduFromInputRef.current.value;
-    const to = +this.eduToInputRef.current.value;
+    const to = this.eduToInputRef.current.value;
     const school = this.universityInputRef.current.value;
     const course = this.courseInputRef.current.value;
     const degreeType = this.degreeTypeInputRef.current.value;
-    const id = uuidv4();
 
-    const eduItem = this.buildEducationItem({
-      id,
-      from,
-      to,
-      school,
-      course,
-      degreeType,
+    const eduItem = { id, from, to, school, course, degreeType };
+
+    this.setState((latest) => {
+      latest.eduItems = [...latest.eduItems, eduItem];
+      return { ...latest };
+    }, () => {
+      console.log(this.state.eduItems);
     });
-    this.setState(
-      (latest) => {
-        latest.eduItems = [...latest.eduItems, eduItem];
-        return { ...latest };
-      },
-      () => {
-        console.log(this.state.eduItems);
-      }
-    );
+
+    this.clearEducationInputFields();
+  };
+
+  loadEducationData = (data) => {
+    let cvEducationData = {};
+    cvEducationData.dataSection = this.buildEducationDataItem(data);
+    cvEducationData.previewSection = this.buildEducationPreviewItem(data);
+    return cvEducationData;
+  };
+
+  deleteEducationItem = (id) => {
+    this.setState((latest) => {
+      const currentEduItems = [...(latest.eduItems)];
+      const updatedEduItems = currentEduItems.filter(item => item.id !== id);
+      const updatedState = { ...latest };
+      updatedState.eduItems = updatedEduItems;
+      return updatedState;
+    }, () => {
+      console.log(this.state.eduItems);
+    });
   };
 
   render() {
-    const list = (
-      <datalist id="degrees">
-        <option value="Bachelor's" />
-        <option value="Associate" />
-        <option value="Master's" />
-        <option value="Doctoral" />
-        <option value="Professional" />
-      </datalist>
-    );
+    const cvEducationData = this.loadEducationData(this.state.eduItems);
+
     return (
       <>
         <h1>CV Builder</h1>
@@ -149,7 +228,7 @@ class App extends React.Component {
                     type={"tel"}
                     placeholder="+2349012345678"
                     compRef={this.phoneInputRef}
-                    value=""
+                    value="09018989515"
                   />
                 </div>
                 <div className="flex-row">
@@ -177,25 +256,28 @@ class App extends React.Component {
                 </Button>
               </form>
             </Section>
+
             <Section sectionTitle="Education">
-              <form className="cv-form" onSubmit={this.updateEducationInfo}>
+              <form className="cv-form" onSubmit={this.addEducationItem}>
                 <InputField
                   isRequired={true}
                   label="University*(in full)"
                   compRef={this.universityInputRef}
+                  value="Hogwarts Academy"
                 />
                 <div className="flex-row">
                   <InputField
                     isRequired={true}
                     label="Course*"
                     compRef={this.courseInputRef}
+                    value="Necromancy"
                   />
                   <InputField
                     isRequired={true}
                     label="Degree Type*"
                     placeholder="Bachelors"
                     listID="degrees"
-                    list={list}
+                    list={this.degreeTypes}
                     compRef={this.degreeTypeInputRef}
                   />
                 </div>
@@ -205,21 +287,22 @@ class App extends React.Component {
                     label="From*"
                     placeholder="Year"
                     compRef={this.eduFromInputRef}
+                    value="2005"
                   />
                   <InputField
-                    isRequired={true}
                     label="To(empty for ongoing)"
-                    placeholder="Year/Ongoing"
+                    placeholder="Year"
                     compRef={this.eduToInputRef}
                   />
                 </div>
-                <Button className="add-btn" btnType="submit">
-                  Add
-                </Button>
-                <Button className="delete-btn">Delete</Button>
+                <Button className="add-btn" btnType="submit">Add</Button>
+                {/* <Button className="delete-btn">Delete</Button> */}
               </form>
-              <hr />
+              <ul className="education-items">
+                {cvEducationData.dataSection}              
+              </ul>
             </Section>
+
             <Section sectionTitle="Practical Experience">
               <form className="cv-form">
                 <div className="flex-row">
@@ -227,21 +310,24 @@ class App extends React.Component {
                   <InputField isRequired={true} label="Position*" />
                 </div>
                 <div className="flex-row">
-                  <InputField isRequired={true} label="From*" placeholder="Year" />
                   <InputField
-                    label="To(empty for ongoing)"
-                    placeholder="Year/Ongoing"
+                    isRequired={true}
+                    label="From*"
+                    placeholder="Year"
                   />
+                  <InputField label="To(empty for ongoing)" placeholder="Year" />
                 </div>
                 <TextArea label="Highlights" />
                 <Button className="add-btn">Add</Button>
                 <Button className="delete-btn">Delete</Button>
               </form>
-              <hr />
             </Section>
+
             <Button className="generate-pdf">Generate PDF</Button>
           </section>
+
           <section className="cv-preview">
+
             <div className="preview">
               <div className="head">
                 <p className="full-name">{this.state.fullName}</p>
@@ -293,7 +379,7 @@ class App extends React.Component {
               <section className="education" aria-label="Education">
                 <h2 className="section-title">Education</h2>
                 <hr />
-                <ul className="list">{this.state.eduItems}</ul>
+                <ul className="list">{cvEducationData.previewSection}</ul>
               </section>
               <section
                 className="practical-exp"
@@ -304,6 +390,7 @@ class App extends React.Component {
                 <ul className="list"></ul>
               </section>
             </div>
+
           </section>
         </main>
       </>
