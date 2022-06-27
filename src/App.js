@@ -11,6 +11,8 @@ import MailImg from "./images/mail.png";
 import { v4 as uuidv4 } from "uuid";
 import "./css/App.css";
 import EducationDataItem from "./components/DataItems/EducationDataItem";
+import PracticalExpPreviewItem from "./components/PreviewItems/PracticalExpPreviewItem";
+import PracticalExpDataItem from "./components/DataItems/PracticalExpDataItem";
 
 class App extends React.Component {
   constructor() {
@@ -72,101 +74,6 @@ class App extends React.Component {
     this.practicalFromInputRef.current.value = "";
     this.practicalToInputRef.current.value = "";
     this.highlightsInputRef.current.value = "";
-  };
-
-  buildEducationDataItem = (list) => {
-    return list.map((item) => {
-
-      const updateSelf = (e) => {
-        e.preventDefault();
-
-        const from = e.target["3"].value;
-        const to = e.target["4"].value;
-        const school = e.target["0"].value;
-        const course = e.target["1"].value;
-        const degreeType = e.target["2"].value;
-
-        let itemData = { id : item.id, from, to, school, course, degreeType };
-        this.updateEducationItem(itemData);
-      };
-
-      const deleteSelf = () => {
-        this.deleteEducationItem(item.id);
-      };
-
-      return (
-        <EducationDataItem itemData={item} formSubmitHandler={updateSelf} onDeleteBtnClicked={deleteSelf} />
-      );
-    });
-  };
-
-  buildEducationPreviewItem = (list) => {
-    return list.map((item) => {
-      return (
-        <EducationPreviewItem itemData={item} />
-      );
-    });
-  };
-
-  buildPracticalExpDataItem = (list) => {
-    return list.map((item) => {
-      let { id, company, position, from, to, highlights} = item;
-      if (to === undefined) to = "";
-
-      return (
-        <li key={id}>
-          <hr />
-          <form className="cv-form">
-            <div className="flex-row">
-              <InputField
-                isRequired={true}
-                label="Company*"
-                value={company}
-              />
-              <InputField
-                isRequired={true}
-                label="Position*"
-                value={position}
-              />
-            </div>
-            <div className="flex-row">
-              <InputField
-                isRequired={true}
-                label="From*"
-                placeholder="Year"
-                value={from}
-              />
-              <InputField
-                label="To(empty for ongoing)"
-                placeholder="Year"
-                value={to}
-              />
-            </div>
-            <TextArea label="Highlights" value={highlights} />
-            <Button className="add-btn" btnType="submit">Update</Button>
-            <Button className="delete-btn">Delete</Button>
-          </form>
-        </li>
-      );
-    });
-  };
-
-  buildPracticalExpPreviewItem = (list) => {
-    return list.map((item) => {
-      let { id, company, position, from, to, highlights } = item;
-      if (to === undefined || to === "") to = "Ongoing";
-
-      return (
-        <li className="item" key={id} >
-          <span className="timeframe">{`${from} - ${to}`}</span>
-          <ul className="details">
-            <li className="company">{company}</li>
-            <li className="position">{position}</li>
-            <li className="highlights">{highlights}</li>
-          </ul>
-        </li>
-      );
-    });
   };
 
   updateGeneralInfo = (e) => {
@@ -231,26 +138,58 @@ class App extends React.Component {
     const practicalExpItem = { id, company, position, from, to, highlights };
 
     this.setState((latest) => {
-      latest.practicalExpItems = [practicalExpItem, ...latest.practicalExpItems];
+      latest.practicalExpItems = [
+        practicalExpItem,
+        ...latest.practicalExpItems,
+      ];
       return { ...latest };
     });
 
     this.clearPracticalExpInputFields();
   };
 
-  loadEducationData = (data) => {
-    let cvEducationData = {};
-    cvEducationData.dataSection = this.buildEducationDataItem(data);
-    cvEducationData.previewSection = this.buildEducationPreviewItem(data);
-    return cvEducationData;
+  getCVEducationDataItemsFrom = (data) => {
+    return data.map((item) => {
+      const updateSelf = (e) => {
+        e.preventDefault();
+
+        const from = e.target["3"].value;
+        const to = e.target["4"].value;
+        const school = e.target["0"].value;
+        const course = e.target["1"].value;
+        const degreeType = e.target["2"].value;
+
+        let itemData = { id: item.id, from, to, school, course, degreeType };
+        this.updateEducationItem(itemData);
+      };
+
+      const deleteSelf = () => {
+        this.deleteEducationItem(item.id);
+      };
+
+      return (
+        <EducationDataItem
+          itemData={item}
+          formSubmitHandler={updateSelf}
+          onDeleteBtnClicked={deleteSelf}
+        />
+      );
+    });
   };
 
-  loadPracticalExpData = (data) => {
-    let cvPracticalExp = {};
-    cvPracticalExp.dataSection = this.buildPracticalExpDataItem(data);
-    cvPracticalExp.previewSection = this.buildPracticalExpPreviewItem(data);
-    return cvPracticalExp;
+  getCVEducationPreviewItemsFrom = (data) => {
+    return data.map((item) => {
+      return <EducationPreviewItem itemData={item} />;
+    });
   };
+
+  getCVPracticalExpDataItemsFrom = (data) => {
+    return data.map((item) => <PracticalExpDataItem itemData={item} />);
+  };
+
+  getCVPracticalExpPreviewItemsFrom = (data) => {
+    return data.map((item) => <PracticalExpPreviewItem itemData={item} />);
+  }
 
   deleteEducationItem = (id) => {
     this.setState((latest) => {
@@ -263,9 +202,6 @@ class App extends React.Component {
   };
 
   render() {
-    const cvEducationData = this.loadEducationData(this.state.eduItems);
-    const cvPracticalExp = this.loadPracticalExpData(this.state.practicalExpItems);
-
     return (
       <>
         <h1>CV Builder</h1>
@@ -370,14 +306,24 @@ class App extends React.Component {
                   Add
                 </Button>
               </form>
-              <ul className="education-items">{cvEducationData.dataSection}</ul>
+              <ul className="education-items">
+                {this.getCVEducationDataItemsFrom(this.state.eduItems)}
+              </ul>
             </Section>
 
             <Section sectionTitle="Practical Experience">
               <form className="cv-form" onSubmit={this.addPracticalExpItem}>
                 <div className="flex-row">
-                  <InputField isRequired={true} label="Company*" compRef={this.companyInputRef} />
-                  <InputField isRequired={true} label="Position*" compRef={this.positionInputRef} />
+                  <InputField
+                    isRequired={true}
+                    label="Company*"
+                    compRef={this.companyInputRef}
+                  />
+                  <InputField
+                    isRequired={true}
+                    label="Position*"
+                    compRef={this.positionInputRef}
+                  />
                 </div>
                 <div className="flex-row">
                   <InputField
@@ -392,10 +338,17 @@ class App extends React.Component {
                     compRef={this.practicalToInputRef}
                   />
                 </div>
-                <TextArea label="Highlights" compRef={this.highlightsInputRef} />
-                <Button className="add-btn" btnType="submit">Add</Button>
+                <TextArea
+                  label="Highlights"
+                  compRef={this.highlightsInputRef}
+                />
+                <Button className="add-btn" btnType="submit">
+                  Add
+                </Button>
               </form>
-              <ul className="practical-exp-items">{cvPracticalExp.dataSection}</ul>
+              <ul className="practical-exp-items">
+                {this.getCVPracticalExpDataItemsFrom(this.state.practicalExpItems)}
+              </ul>
             </Section>
 
             <Button className="generate-pdf">Generate PDF</Button>
@@ -453,7 +406,9 @@ class App extends React.Component {
               <section className="education" aria-label="Education">
                 <h2 className="section-title">Education</h2>
                 <hr />
-                <ul className="list">{cvEducationData.previewSection}</ul>
+                <ul className="list">
+                  {this.getCVEducationPreviewItemsFrom(this.state.eduItems)}
+                </ul>
               </section>
               <section
                 className="practical-exp"
@@ -461,7 +416,7 @@ class App extends React.Component {
               >
                 <h2 className="section-title">Practical Experience</h2>
                 <hr />
-                <ul className="list">{cvPracticalExp.previewSection}</ul>
+                <ul className="list">{this.getCVPracticalExpPreviewItemsFrom(this.state.practicalExpItems)}</ul>
               </section>
             </div>
           </section>

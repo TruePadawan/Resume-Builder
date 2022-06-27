@@ -178,7 +178,7 @@ hr {
     color: #676767;
 }
 
-.education-items input {
+.education-items input, .practical-exp-items input {
     background-color: #ababab;
     color: black;
 }
