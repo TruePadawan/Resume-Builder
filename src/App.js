@@ -4,6 +4,7 @@ import Section from "./components/Section/Section";
 import { v4 as uuidv4 } from "uuid";
 import { InputField, TextArea } from "./components/InputField/InputField";
 import EducationPreviewItem from "./components/PreviewItems/EducationPreviewItem";
+import ReactToPrint from "react-to-print";
 
 import PhoneImg from "./images/phone.png";
 import HomeImg from "./images/home.png";
@@ -183,6 +184,7 @@ class App extends React.Component {
       return (
         <EducationDataItem
           itemData={item}
+          key={data.id}
           formSubmitHandler={updateSelf}
           onDeleteBtnClicked={deleteSelf}
         />
@@ -192,7 +194,7 @@ class App extends React.Component {
 
   getCVEducationPreviewItemsFrom = (data) => {
     return data.map((item) => {
-      return <EducationPreviewItem itemData={item} />;
+      return <EducationPreviewItem itemData={item} key={data.id} />;
     });
   };
 
@@ -215,12 +217,12 @@ class App extends React.Component {
         this.deletePracticalExpItem(item.id);
       };
 
-      return <PracticalExpDataItem itemData={item} formSubmitHandler={updateSelf} onDeleteBtnClicked={deleteSelf} />
+      return <PracticalExpDataItem itemData={item} key={data.id} formSubmitHandler={updateSelf} onDeleteBtnClicked={deleteSelf} />
     });
   };
 
   getCVPracticalExpPreviewItemsFrom = (data) => {
-    return data.map((item) => <PracticalExpPreviewItem itemData={item} />);
+    return data.map((item) => <PracticalExpPreviewItem itemData={item} key={data.id} />);
   }
 
   deleteEducationItem = (id) => {
@@ -244,6 +246,15 @@ class App extends React.Component {
   };
 
   render() {
+    const generatePDFBtn = <Button className="generate-pdf">Generate PDF</Button>;
+
+    const pageStyle = `
+      @page {
+        size: auto;
+        margin: 0;
+      }
+    `;
+
     return (
       <>
         <h1>CV Builder</h1>
@@ -392,11 +403,11 @@ class App extends React.Component {
               </ul>
             </Section>
 
-            <Button className="generate-pdf">Generate PDF</Button>
+            <ReactToPrint content={() => this.cvPreviewRef} trigger={() => generatePDFBtn} pageStyle={pageStyle} />
           </section>
 
           <section className="cv-preview">
-            <div className="preview">
+            <div className="preview" ref={el => (this.cvPreviewRef = el)}>
               <div className="head">
                 <p className="full-name">{this.state.fullName}</p>
                 <p className="job-title">{this.state.jobTitle}</p>
