@@ -1,5 +1,6 @@
 import { InputField } from "../InputField/InputField";
 import Button from "../Button/Button";
+import "./dataItem.css";
 
 const EducationDataItem = (props) => {
   let { id, from, to, school, course, degreeType } = props.itemData;

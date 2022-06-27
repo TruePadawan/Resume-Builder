@@ -302,9 +302,7 @@ class App extends React.Component {
                     compRef={this.eduToInputRef}
                   />
                 </div>
-                <Button className="add-btn" btnType="submit">
-                  Add
-                </Button>
+                <Button className="add-btn" btnType="submit">Add</Button>
               </form>
               <ul className="education-items">
                 {this.getCVEducationDataItemsFrom(this.state.eduItems)}
@@ -318,11 +316,13 @@ class App extends React.Component {
                     isRequired={true}
                     label="Company*"
                     compRef={this.companyInputRef}
+                    value="Microsoft"
                   />
                   <InputField
                     isRequired={true}
                     label="Position*"
                     compRef={this.positionInputRef}
+                    value="Junior Fullstack Developer"
                   />
                 </div>
                 <div className="flex-row">
@@ -331,6 +331,7 @@ class App extends React.Component {
                     label="From*"
                     placeholder="Year"
                     compRef={this.practicalFromInputRef}
+                    value="2008"
                   />
                   <InputField
                     label="To(empty for ongoing)"
@@ -342,9 +343,7 @@ class App extends React.Component {
                   label="Highlights"
                   compRef={this.highlightsInputRef}
                 />
-                <Button className="add-btn" btnType="submit">
-                  Add
-                </Button>
+                <Button className="add-btn" btnType="submit">Add</Button>
               </form>
               <ul className="practical-exp-items">
                 {this.getCVPracticalExpDataItemsFrom(this.state.practicalExpItems)}

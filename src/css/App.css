@@ -39,6 +39,7 @@ main {
     justify-content: space-between;
     gap: 2rem;
 }
+
 .update-btn {
     background-color: rgb(212, 247, 189);
 }
@@ -156,26 +157,6 @@ hr {
     display: flex;
     flex-direction: column;
     gap: 5px;
-}
-
-.item {
-    display: flex;
-    justify-content: space-between;
-    background-color: rgba(219, 219, 219, 0.32);
-    padding: 5px;
-}
-
-.timeframe, .details {
-    flex-basis: 50%;
-}
-
-.school {
-    font-size: 24px;
-}
-
-.course, .degree-type {
-    font-size: 1.2rem;
-    color: #676767;
 }
 
 .education-items input, .practical-exp-items input {

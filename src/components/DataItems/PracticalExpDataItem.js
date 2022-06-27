@@ -1,5 +1,6 @@
 import { InputField, TextArea } from "../InputField/InputField";
 import Button from "../Button/Button";
+import "./dataItem.css";
 
 const PracticalExpDataItem = (props) => {
   let { id, company, position, from, to, highlights } = props.itemData;
