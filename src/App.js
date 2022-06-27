@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "./components/Button/Button";
 import Section from "./components/Section/Section";
+import { v4 as uuidv4 } from "uuid";
 import { InputField, TextArea } from "./components/InputField/InputField";
 import EducationPreviewItem from "./components/PreviewItems/EducationPreviewItem";
 
@@ -8,11 +9,11 @@ import PhoneImg from "./images/phone.png";
 import HomeImg from "./images/home.png";
 import LinkedInImg from "./images/linkedin.png";
 import MailImg from "./images/mail.png";
-import { v4 as uuidv4 } from "uuid";
-import "./css/App.css";
 import EducationDataItem from "./components/DataItems/EducationDataItem";
 import PracticalExpPreviewItem from "./components/PreviewItems/PracticalExpPreviewItem";
 import PracticalExpDataItem from "./components/DataItems/PracticalExpDataItem";
+
+import "./css/App.css";
 
 class App extends React.Component {
   constructor() {
