@@ -2,6 +2,7 @@ import React from "react";
 import Button from "./components/Button/Button";
 import Section from "./components/Section/Section";
 import { InputField, TextArea } from "./components/InputField/InputField";
+import EducationPreviewItem from "./components/PreviewItems/EducationPreviewItem";
 
 import PhoneImg from "./images/phone.png";
 import HomeImg from "./images/home.png";
@@ -9,6 +10,7 @@ import LinkedInImg from "./images/linkedin.png";
 import MailImg from "./images/mail.png";
 import { v4 as uuidv4 } from "uuid";
 import "./css/App.css";
+import EducationDataItem from "./components/DataItems/EducationDataItem";
 
 class App extends React.Component {
   constructor() {
@@ -64,10 +66,16 @@ class App extends React.Component {
     this.eduToInputRef.current.value = "";
   };
 
+  clearPracticalExpInputFields = () => {
+    this.companyInputRef.current.value = "";
+    this.positionInputRef.current.value = "";
+    this.practicalFromInputRef.current.value = "";
+    this.practicalToInputRef.current.value = "";
+    this.highlightsInputRef.current.value = "";
+  };
+
   buildEducationDataItem = (list) => {
     return list.map((item) => {
-      let { id, from, to, school, course, degreeType } = item;
-      if (to === undefined) to = "";
 
       const updateSelf = (e) => {
         e.preventDefault();
@@ -78,28 +86,47 @@ class App extends React.Component {
         const course = e.target["1"].value;
         const degreeType = e.target["2"].value;
 
-        let itemData = { id, from, to, school, course, degreeType };
+        let itemData = { id : item.id, from, to, school, course, degreeType };
         this.updateEducationItem(itemData);
       };
 
       const deleteSelf = () => {
-        this.deleteEducationItem(id);
+        this.deleteEducationItem(item.id);
       };
+
+      return (
+        <EducationDataItem itemData={item} formSubmitHandler={updateSelf} onDeleteBtnClicked={deleteSelf} />
+      );
+    });
+  };
+
+  buildEducationPreviewItem = (list) => {
+    return list.map((item) => {
+      return (
+        <EducationPreviewItem itemData={item} />
+      );
+    });
+  };
+
+  buildPracticalExpDataItem = (list) => {
+    return list.map((item) => {
+      let { id, company, position, from, to, highlights} = item;
+      if (to === undefined) to = "";
 
       return (
         <li key={id}>
           <hr />
-          <form className="cv-form" onSubmit={updateSelf}>
-            <InputField isRequired={true} label="University*" value={school} />
+          <form className="cv-form">
             <div className="flex-row">
-              <InputField isRequired={true} label="Course*" value={course} />
               <InputField
                 isRequired={true}
-                label="Degree Type*"
-                placeholder="Bachelors"
-                listID="degrees"
-                list={this.degreeTypes}
-                value={degreeType}
+                label="Company*"
+                value={company}
+              />
+              <InputField
+                isRequired={true}
+                label="Position*"
+                value={position}
               />
             </div>
             <div className="flex-row">
@@ -109,32 +136,33 @@ class App extends React.Component {
                 placeholder="Year"
                 value={from}
               />
-              <InputField label="To(empty for ongoing)" value={to} />
+              <InputField
+                label="To(empty for ongoing)"
+                placeholder="Year"
+                value={to}
+              />
             </div>
-            <Button className="add-btn" btnType="submit">
-              Update
-            </Button>
-            <Button className="delete-btn" onClick={deleteSelf}>
-              Delete
-            </Button>
+            <TextArea label="Highlights" value={highlights} />
+            <Button className="add-btn" btnType="submit">Update</Button>
+            <Button className="delete-btn">Delete</Button>
           </form>
         </li>
       );
     });
   };
 
-  buildEducationPreviewItem = (list) => {
+  buildPracticalExpPreviewItem = (list) => {
     return list.map((item) => {
-      let { id, from, to, school, course, degreeType } = item;
+      let { id, company, position, from, to, highlights } = item;
       if (to === undefined || to === "") to = "Ongoing";
 
       return (
-        <li className="item" key={id} data-id={id}>
+        <li className="item" key={id} >
           <span className="timeframe">{`${from} - ${to}`}</span>
           <ul className="details">
-            <li className="school">{school}</li>
-            <li className="course">{course}</li>
-            <li className="degree-type">{`${degreeType} Degree`}</li>
+            <li className="company">{company}</li>
+            <li className="position">{position}</li>
+            <li className="highlights">{highlights}</li>
           </ul>
         </li>
       );
@@ -190,11 +218,38 @@ class App extends React.Component {
     this.clearEducationInputFields();
   };
 
+  addPracticalExpItem = (e) => {
+    e.preventDefault();
+
+    const id = uuidv4();
+    const company = this.companyInputRef.current.value;
+    const position = this.positionInputRef.current.value;
+    const from = +this.practicalFromInputRef.current.value;
+    const to = this.practicalToInputRef.current.value;
+    const highlights = this.highlightsInputRef.current.value;
+
+    const practicalExpItem = { id, company, position, from, to, highlights };
+
+    this.setState((latest) => {
+      latest.practicalExpItems = [practicalExpItem, ...latest.practicalExpItems];
+      return { ...latest };
+    });
+
+    this.clearPracticalExpInputFields();
+  };
+
   loadEducationData = (data) => {
     let cvEducationData = {};
     cvEducationData.dataSection = this.buildEducationDataItem(data);
     cvEducationData.previewSection = this.buildEducationPreviewItem(data);
     return cvEducationData;
+  };
+
+  loadPracticalExpData = (data) => {
+    let cvPracticalExp = {};
+    cvPracticalExp.dataSection = this.buildPracticalExpDataItem(data);
+    cvPracticalExp.previewSection = this.buildPracticalExpPreviewItem(data);
+    return cvPracticalExp;
   };
 
   deleteEducationItem = (id) => {
@@ -209,6 +264,7 @@ class App extends React.Component {
 
   render() {
     const cvEducationData = this.loadEducationData(this.state.eduItems);
+    const cvPracticalExp = this.loadPracticalExpData(this.state.practicalExpItems);
 
     return (
       <>
@@ -259,7 +315,7 @@ class App extends React.Component {
                     type={"url"}
                     placeholder="https://marysue.com"
                     compRef={this.personalSiteInputRef}
-                    value="https://sebastiantao.wiz"
+                    value="https://www.sebastiantao.wiz"
                   />
                 </div>
                 <TextArea
@@ -313,32 +369,33 @@ class App extends React.Component {
                 <Button className="add-btn" btnType="submit">
                   Add
                 </Button>
-                {/* <Button className="delete-btn">Delete</Button> */}
               </form>
               <ul className="education-items">{cvEducationData.dataSection}</ul>
             </Section>
 
             <Section sectionTitle="Practical Experience">
-              <form className="cv-form">
+              <form className="cv-form" onSubmit={this.addPracticalExpItem}>
                 <div className="flex-row">
-                  <InputField isRequired={true} label="Company*" />
-                  <InputField isRequired={true} label="Position*" />
+                  <InputField isRequired={true} label="Company*" compRef={this.companyInputRef} />
+                  <InputField isRequired={true} label="Position*" compRef={this.positionInputRef} />
                 </div>
                 <div className="flex-row">
                   <InputField
                     isRequired={true}
                     label="From*"
                     placeholder="Year"
+                    compRef={this.practicalFromInputRef}
                   />
                   <InputField
                     label="To(empty for ongoing)"
                     placeholder="Year"
+                    compRef={this.practicalToInputRef}
                   />
                 </div>
-                <TextArea label="Highlights" />
-                <Button className="add-btn">Add</Button>
-                <Button className="delete-btn">Delete</Button>
+                <TextArea label="Highlights" compRef={this.highlightsInputRef} />
+                <Button className="add-btn" btnType="submit">Add</Button>
               </form>
+              <ul className="practical-exp-items">{cvPracticalExp.dataSection}</ul>
             </Section>
 
             <Button className="generate-pdf">Generate PDF</Button>
@@ -404,7 +461,7 @@ class App extends React.Component {
               >
                 <h2 className="section-title">Practical Experience</h2>
                 <hr />
-                <ul className="list"></ul>
+                <ul className="list">{cvPracticalExp.previewSection}</ul>
               </section>
             </div>
           </section>
