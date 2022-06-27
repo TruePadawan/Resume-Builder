@@ -9,7 +9,7 @@ const PracticalExpDataItem = (props) => {
   return (
     <li key={id}>
       <hr />
-      <form className="cv-form">
+      <form className="cv-form" onSubmit={props.formSubmitHandler}>
         <div className="flex-row">
           <InputField isRequired={true} label="Company*" value={company} />
           <InputField isRequired={true} label="Position*" value={position} />
@@ -29,7 +29,7 @@ const PracticalExpDataItem = (props) => {
         </div>
         <TextArea label="Highlights" value={highlights} />
         <Button className="add-btn" btnType="submit">Update</Button>
-        <Button className="delete-btn">Delete</Button>
+        <Button className="delete-btn" onClick={props.onDeleteBtnClicked}>Delete</Button>
       </form>
     </li>
   );

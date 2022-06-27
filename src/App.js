@@ -100,10 +100,22 @@ class App extends React.Component {
 
       const updatedState = { ...latest };
       updatedState.eduItems = currentEduItems;
-
       return updatedState;
     });
   };
+
+  updatePracticalExpItem = (data) => {
+    const { id } = data;
+    this.setState((latest) => {
+      const currentPracticalExpItems = [...latest.practicalExpItems];
+      let itemIndex = currentPracticalExpItems.findIndex((item) => item.id === id);
+      currentPracticalExpItems[itemIndex] = data;
+
+      const updatedState = { ...latest };
+      updatedState.practicalExpItems = currentPracticalExpItems;
+      return updatedState;
+    });
+  }
 
   addEducationItem = (e) => {
     e.preventDefault();
@@ -184,7 +196,26 @@ class App extends React.Component {
   };
 
   getCVPracticalExpDataItemsFrom = (data) => {
-    return data.map((item) => <PracticalExpDataItem itemData={item} />);
+    return data.map((item) => {
+      const updateSelf = (e) => {
+        e.preventDefault();
+
+        const company = e.target["0"].value;
+        const position = e.target["1"].value;
+        const from = e.target["2"].value;
+        const to = e.target["3"].value;
+        const highlights = e.target["4"].value;
+
+        let itemData = { id: item.id, from, to, company, position, highlights };
+        this.updatePracticalExpItem(itemData);
+      };
+
+      const deleteSelf = () => {
+        this.deletePracticalExpItem(item.id);
+      };
+
+      return <PracticalExpDataItem itemData={item} formSubmitHandler={updateSelf} onDeleteBtnClicked={deleteSelf} />
+    });
   };
 
   getCVPracticalExpPreviewItemsFrom = (data) => {
@@ -197,6 +228,16 @@ class App extends React.Component {
       const updatedEduItems = currentEduItems.filter((item) => item.id !== id);
       const updatedState = { ...latest };
       updatedState.eduItems = updatedEduItems;
+      return updatedState;
+    });
+  };
+
+  deletePracticalExpItem = (id) => {
+    this.setState((latest) => {
+      const currentPracticalExpItems = [...latest.practicalExpItems];
+      const filteredItems = currentPracticalExpItems.filter((item) => item.id !== id);
+      const updatedState = { ...latest };
+      updatedState.practicalExpItems = filteredItems;
       return updatedState;
     });
   };
