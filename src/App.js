@@ -267,12 +267,10 @@ class App extends React.Component {
                     label="Full Name*"
                     isRequired={true}
                     compRef={this.fullNameInputRef}
-                    value="Sebastian Tao"
                   />
                   <InputField
                     label="Job Title"
                     compRef={this.jobTitleInputRef}
-                    value="Apprentice Necromancer"
                   />
                 </div>
                 <div className="flex-row">
@@ -281,14 +279,12 @@ class App extends React.Component {
                     isRequired={true}
                     type={"email"}
                     compRef={this.emailInputRef}
-                    value="sebastiantao@gmail.com"
                   />
                   <InputField
                     label="Phone Number"
                     type={"tel"}
                     placeholder="+2349012345678"
                     compRef={this.phoneInputRef}
-                    value="09018989515"
                   />
                 </div>
                 <div className="flex-row">
@@ -297,14 +293,12 @@ class App extends React.Component {
                     type={"url"}
                     placeholder="https://linkedin.com/in/mary-sue"
                     compRef={this.linkedinInputRef}
-                    value="https://www.linkedin.com/in/sebastian-tao/"
                   />
                   <InputField
                     label="Personal Site"
                     type={"url"}
                     placeholder="https://marysue.com"
                     compRef={this.personalSiteInputRef}
-                    value="https://www.sebastiantao.wiz"
                   />
                 </div>
                 <TextArea
@@ -323,14 +317,12 @@ class App extends React.Component {
                   isRequired={true}
                   label="University*(in full)"
                   compRef={this.universityInputRef}
-                  value="Hogwarts Academy"
                 />
                 <div className="flex-row">
                   <InputField
                     isRequired={true}
                     label="Course*"
                     compRef={this.courseInputRef}
-                    value="Necromancy"
                   />
                   <InputField
                     isRequired={true}
@@ -347,7 +339,6 @@ class App extends React.Component {
                     label="From*"
                     placeholder="Year"
                     compRef={this.eduFromInputRef}
-                    value="2005"
                   />
                   <InputField
                     label="To(empty for ongoing)"
@@ -369,13 +360,11 @@ class App extends React.Component {
                     isRequired={true}
                     label="Company*"
                     compRef={this.companyInputRef}
-                    value="Microsoft"
                   />
                   <InputField
                     isRequired={true}
                     label="Position*"
                     compRef={this.positionInputRef}
-                    value="Junior Fullstack Developer"
                   />
                 </div>
                 <div className="flex-row">
@@ -384,7 +373,6 @@ class App extends React.Component {
                     label="From*"
                     placeholder="Year"
                     compRef={this.practicalFromInputRef}
-                    value="2008"
                   />
                   <InputField
                     label="To(empty for ongoing)"
