@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.ce7210e4.css",
-    "main.js": "/static/js/main.ee0829e3.js",
-    "index.html": "/index.html",
-    "main.ce7210e4.css.map": "/static/css/main.ce7210e4.css.map",
-    "main.ee0829e3.js.map": "/static/js/main.ee0829e3.js.map"
+    "main.css": "/CV-Builder/static/css/main.ce7210e4.css",
+    "main.js": "/CV-Builder/static/js/main.ee0829e3.js",
+    "index.html": "/CV-Builder/index.html",
+    "main.ce7210e4.css.map": "/CV-Builder/static/css/main.ce7210e4.css.map",
+    "main.ee0829e3.js.map": "/CV-Builder/static/js/main.ee0829e3.js.map"
   },
   "entrypoints": [
     "static/css/main.ce7210e4.css",
