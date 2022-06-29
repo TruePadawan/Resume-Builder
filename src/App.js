@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useRef } from "react";
 import Button from "./components/Button/Button";
 import Section from "./components/Section/Section";
 import { v4 as uuidv4 } from "uuid";
@@ -16,86 +16,86 @@ import PracticalExpDataItem from "./components/DataItems/PracticalExpDataItem";
 
 import "./css/App.css";
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      fullName: "",
-      jobTitle: "",
-      email: "",
-      phoneNumber: "",
-      linkedIn: "",
-      personalSite: "",
-      desc: "",
-      eduItems: [],
-      practicalExpItems: [],
-    };
+const App = () => {
+  const [appState, setAppState] = useState({
+    fullName: "",
+    jobTitle: "",
+    email: "",
+    phoneNumber: "",
+    linkedIn: "",
+    personalSite: "",
+    desc: "",
+    eduItems: [],
+    practicalExpItems: [],
+  });
 
-    this.degreeTypes = (
-      <datalist id="degrees">
-        <option value="Bachelor's" />
-        <option value="Associate" />
-        <option value="Master's" />
-        <option value="Doctoral" />
-        <option value="Professional" />
-      </datalist>
-    );
+  const fullNameInputRef = useRef();
+  const jobTitleInputRef = useRef();
+  const emailInputRef = useRef();
+  const phoneInputRef = useRef();
+  const linkedinInputRef = useRef();
+  const personalSiteInputRef = useRef();
+  const descInputRef = useRef();
 
-    this.fullNameInputRef = React.createRef();
-    this.jobTitleInputRef = React.createRef();
-    this.emailInputRef = React.createRef();
-    this.phoneInputRef = React.createRef();
-    this.linkedinInputRef = React.createRef();
-    this.personalSiteInputRef = React.createRef();
-    this.descInputRef = React.createRef();
+  const universityInputRef = useRef();
+  const courseInputRef = useRef();
+  const degreeTypeInputRef = useRef();
+  const eduFromInputRef = useRef();
+  const eduToInputRef = useRef();
 
-    this.universityInputRef = React.createRef();
-    this.courseInputRef = React.createRef();
-    this.degreeTypeInputRef = React.createRef();
-    this.eduFromInputRef = React.createRef();
-    this.eduToInputRef = React.createRef();
+  const companyInputRef = useRef();
+  const positionInputRef = useRef();
+  const practicalFromInputRef = useRef();
+  const practicalToInputRef = useRef();
+  const highlightsInputRef = useRef();
 
-    this.companyInputRef = React.createRef();
-    this.positionInputRef = React.createRef();
-    this.practicalFromInputRef = React.createRef();
-    this.practicalToInputRef = React.createRef();
-    this.highlightsInputRef = React.createRef();
-  }
+  let previewRef;
+  
+  const degreeTypes = (
+    <datalist id="degrees">
+      <option value="Bachelor's" />
+      <option value="Associate" />
+      <option value="Master's" />
+      <option value="Doctoral" />
+      <option value="Professional" />
+    </datalist>
+  );
 
-  clearEducationInputFields = () => {
-    this.universityInputRef.current.value = "";
-    this.courseInputRef.current.value = "";
-    this.degreeTypeInputRef.current.value = "";
-    this.eduFromInputRef.current.value = "";
-    this.eduToInputRef.current.value = "";
+  const clearEducationInputFields = () => {
+    universityInputRef.current.value = "";
+    courseInputRef.current.value = "";
+    degreeTypeInputRef.current.value = "";
+    eduFromInputRef.current.value = "";
+    eduToInputRef.current.value = "";
   };
 
-  clearPracticalExpInputFields = () => {
-    this.companyInputRef.current.value = "";
-    this.positionInputRef.current.value = "";
-    this.practicalFromInputRef.current.value = "";
-    this.practicalToInputRef.current.value = "";
-    this.highlightsInputRef.current.value = "";
+  const clearPracticalExpInputFields = () => {
+    companyInputRef.current.value = "";
+    positionInputRef.current.value = "";
+    practicalFromInputRef.current.value = "";
+    practicalToInputRef.current.value = "";
+    highlightsInputRef.current.value = "";
   };
 
-  updateGeneralInfo = (e) => {
+  const updateGeneralInfo = (e) => {
+    console.log('gen')
     e.preventDefault();
 
-    this.setState((latest) => {
-      latest.fullName = this.fullNameInputRef.current.value;
-      latest.jobTitle = this.jobTitleInputRef.current.value;
-      latest.email = this.emailInputRef.current.value;
-      latest.phoneNumber = this.phoneInputRef.current.value;
-      latest.linkedIn = this.linkedinInputRef.current.value;
-      latest.personalSite = this.personalSiteInputRef.current.value;
-      latest.desc = this.descInputRef.current.value;
-      return latest;
+    setAppState((latest) => {
+      latest.fullName = fullNameInputRef.current.value;
+      latest.jobTitle = jobTitleInputRef.current.value;
+      latest.email = emailInputRef.current.value;
+      latest.phoneNumber = phoneInputRef.current.value;
+      latest.linkedIn = linkedinInputRef.current.value;
+      latest.personalSite = personalSiteInputRef.current.value;
+      latest.desc = descInputRef.current.value;
+      return { ...latest };
     });
   };
 
-  updateEducationItem = (data) => {
+  const updateEducationItem = (data) => {
     const { id } = data;
-    this.setState((latest) => {
+    setAppState((latest) => {
       const currentEduItems = [...latest.eduItems];
       let itemIndex = currentEduItems.findIndex((item) => item.id === id);
       currentEduItems[itemIndex] = data;
@@ -106,63 +106,69 @@ class App extends React.Component {
     });
   };
 
-  updatePracticalExpItem = (data) => {
+  const updatePracticalExpItem = (data) => {
     const { id } = data;
-    this.setState((latest) => {
+    setAppState((latest) => {
       const currentPracticalExpItems = [...latest.practicalExpItems];
       let itemIndex = currentPracticalExpItems.findIndex((item) => item.id === id);
       currentPracticalExpItems[itemIndex] = data;
-
       const updatedState = { ...latest };
       updatedState.practicalExpItems = currentPracticalExpItems;
       return updatedState;
     });
-  }
+  };
 
-  addEducationItem = (e) => {
+  const addEducationItem = (e) => {
     e.preventDefault();
 
     const id = uuidv4();
-    const from = +this.eduFromInputRef.current.value;
-    const to = this.eduToInputRef.current.value;
-    const school = this.universityInputRef.current.value;
-    const course = this.courseInputRef.current.value;
-    const degreeType = this.degreeTypeInputRef.current.value;
+    const from = eduFromInputRef.current.value;
+    const to = eduToInputRef.current.value;
+    const school = universityInputRef.current.value;
+    const course = courseInputRef.current.value;
+    const degreeType = degreeTypeInputRef.current.value;
 
     const eduItem = { id, from, to, school, course, degreeType };
 
-    this.setState((latest) => {
-      latest.eduItems = [eduItem, ...latest.eduItems];
-      return { ...latest };
+    setAppState((latest) => {
+      const latestEduItems = [...latest.eduItems];
+      latestEduItems.unshift(eduItem);
+
+      const updatedState = { ...latest };
+      updatedState.eduItems = latestEduItems;
+
+      return updatedState;
     });
 
-    this.clearEducationInputFields();
+    clearEducationInputFields();
   };
 
-  addPracticalExpItem = (e) => {
+  const addPracticalExpItem = (e) => {
     e.preventDefault();
 
     const id = uuidv4();
-    const company = this.companyInputRef.current.value;
-    const position = this.positionInputRef.current.value;
-    const from = +this.practicalFromInputRef.current.value;
-    const to = this.practicalToInputRef.current.value;
-    const highlights = this.highlightsInputRef.current.value;
+    const company = companyInputRef.current.value;
+    const position = positionInputRef.current.value;
+    const from = +practicalFromInputRef.current.value;
+    const to = practicalToInputRef.current.value;
+    const highlights = highlightsInputRef.current.value;
 
     const practicalExpItem = { id, company, position, from, to, highlights };
 
-    this.setState((latest) => {
-      latest.practicalExpItems = [
-        practicalExpItem,
-        ...latest.practicalExpItems,
-      ];
-      return { ...latest };
+    setAppState((latest) => {
+      const latestItems = [...latest.practicalExpItems];
+      latestItems.unshift(practicalExpItem);
+
+      const updatedState = { ...latest };
+      updatedState.practicalExpItems = latestItems;
+      
+      return updatedState;
     });
 
-    this.clearPracticalExpInputFields();
+    clearPracticalExpInputFields();
   };
 
-  getCVEducationDataItemsFrom = (data) => {
+  const getCVEducationDataItemsFrom = (data) => {
     return data.map((item) => {
       const updateSelf = (e) => {
         e.preventDefault();
@@ -174,11 +180,11 @@ class App extends React.Component {
         const degreeType = e.target["2"].value;
 
         let itemData = { id: item.id, from, to, school, course, degreeType };
-        this.updateEducationItem(itemData);
+        updateEducationItem(itemData);
       };
 
       const deleteSelf = () => {
-        this.deleteEducationItem(item.id);
+        deleteEducationItem(item.id);
       };
 
       return (
@@ -192,13 +198,13 @@ class App extends React.Component {
     });
   };
 
-  getCVEducationPreviewItemsFrom = (data) => {
+  const getCVEducationPreviewItemsFrom = (data) => {
     return data.map((item) => {
       return <EducationPreviewItem itemData={item} key={data.id} />;
     });
   };
 
-  getCVPracticalExpDataItemsFrom = (data) => {
+  const getCVPracticalExpDataItemsFrom = (data) => {
     return data.map((item) => {
       const updateSelf = (e) => {
         e.preventDefault();
@@ -210,23 +216,32 @@ class App extends React.Component {
         const highlights = e.target["4"].value;
 
         let itemData = { id: item.id, from, to, company, position, highlights };
-        this.updatePracticalExpItem(itemData);
+        updatePracticalExpItem(itemData);
       };
 
       const deleteSelf = () => {
-        this.deletePracticalExpItem(item.id);
+        deletePracticalExpItem(item.id);
       };
 
-      return <PracticalExpDataItem itemData={item} key={data.id} formSubmitHandler={updateSelf} onDeleteBtnClicked={deleteSelf} />
+      return (
+        <PracticalExpDataItem
+          itemData={item}
+          key={data.id}
+          formSubmitHandler={updateSelf}
+          onDeleteBtnClicked={deleteSelf}
+        />
+      );
     });
   };
 
-  getCVPracticalExpPreviewItemsFrom = (data) => {
-    return data.map((item) => <PracticalExpPreviewItem itemData={item} key={data.id} />);
-  }
+  const getCVPracticalExpPreviewItemsFrom = (data) => {
+    return data.map((item) => (
+      <PracticalExpPreviewItem itemData={item} key={data.id} />
+    ));
+  };
 
-  deleteEducationItem = (id) => {
-    this.setState((latest) => {
+  const deleteEducationItem = (id) => {
+    setAppState((latest) => {
       const currentEduItems = [...latest.eduItems];
       const updatedEduItems = currentEduItems.filter((item) => item.id !== id);
       const updatedState = { ...latest };
@@ -235,235 +250,234 @@ class App extends React.Component {
     });
   };
 
-  deletePracticalExpItem = (id) => {
-    this.setState((latest) => {
+  const deletePracticalExpItem = (id) => {
+    setAppState((latest) => {
       const currentPracticalExpItems = [...latest.practicalExpItems];
-      const filteredItems = currentPracticalExpItems.filter((item) => item.id !== id);
+      const filteredItems = currentPracticalExpItems.filter(
+        (item) => item.id !== id
+      );
       const updatedState = { ...latest };
       updatedState.practicalExpItems = filteredItems;
       return updatedState;
     });
   };
 
-  render() {
-    const generatePDFBtn = <Button className="generate-pdf">Generate PDF</Button>;
+  const generatePDFBtn = <Button className="generate-pdf">Generate PDF</Button>;
 
-    const pageStyle = `
+  const pageStyle = `
       @page {
         size: auto;
         margin: 0;
       }
     `;
 
-    return (
-      <>
-        <h1>CV Builder</h1>
-        <main>
-          <section className="cv-data">
-            <Section sectionTitle="General Information">
-              <form className="cv-form" onSubmit={this.updateGeneralInfo}>
-                <div className="flex-row">
-                  <InputField
-                    label="Full Name*"
-                    isRequired={true}
-                    compRef={this.fullNameInputRef}
-                  />
-                  <InputField
-                    label="Job Title"
-                    compRef={this.jobTitleInputRef}
-                  />
-                </div>
-                <div className="flex-row">
-                  <InputField
-                    label="Email*"
-                    isRequired={true}
-                    type={"email"}
-                    compRef={this.emailInputRef}
-                  />
-                  <InputField
-                    label="Phone Number"
-                    type={"tel"}
-                    placeholder="+2349012345678"
-                    compRef={this.phoneInputRef}
-                  />
-                </div>
-                <div className="flex-row">
-                  <InputField
-                    label="LinkedIn URL"
-                    type={"url"}
-                    placeholder="https://linkedin.com/in/mary-sue"
-                    compRef={this.linkedinInputRef}
-                  />
-                  <InputField
-                    label="Personal Site"
-                    type={"url"}
-                    placeholder="https://marysue.com"
-                    compRef={this.personalSiteInputRef}
-                  />
-                </div>
-                <TextArea
-                  label="Personal Description"
-                  compRef={this.descInputRef}
+  return (
+    <>
+      <h1>CV Builder</h1>
+      <main>
+        <section className="cv-data">
+          <Section sectionTitle="General Information">
+            <form className="cv-form" onSubmit={updateGeneralInfo}>
+              <div className="flex-row">
+                <InputField
+                  label="Full Name*"
+                  isRequired={true}
+                  compRef={fullNameInputRef}
                 />
-                <Button className="update-btn" btnType="submit">
-                  Update
-                </Button>
-              </form>
-            </Section>
+                <InputField label="Job Title" compRef={jobTitleInputRef} />
+              </div>
+              <div className="flex-row">
+                <InputField
+                  label="Email*"
+                  isRequired={true}
+                  type={"email"}
+                  compRef={emailInputRef}
+                />
+                <InputField
+                  label="Phone Number"
+                  type={"tel"}
+                  placeholder="+2349012345678"
+                  compRef={phoneInputRef}
+                />
+              </div>
+              <div className="flex-row">
+                <InputField
+                  label="LinkedIn URL"
+                  type={"url"}
+                  placeholder="https://linkedin.com/in/mary-sue"
+                  compRef={linkedinInputRef}
+                />
+                <InputField
+                  label="Personal Site"
+                  type={"url"}
+                  placeholder="https://marysue.com"
+                  compRef={personalSiteInputRef}
+                />
+              </div>
+              <TextArea label="Personal Description" compRef={descInputRef} />
+              <Button className="update-btn" btnType="submit">
+                Update
+              </Button>
+            </form>
+          </Section>
 
-            <Section sectionTitle="Education">
-              <form className="cv-form" onSubmit={this.addEducationItem}>
+          <Section sectionTitle="Education">
+            <form className="cv-form" onSubmit={addEducationItem}>
+              <InputField
+                isRequired={true}
+                label="University*(in full)"
+                compRef={universityInputRef}
+              />
+              <div className="flex-row">
                 <InputField
                   isRequired={true}
-                  label="University*(in full)"
-                  compRef={this.universityInputRef}
+                  label="Course*"
+                  compRef={courseInputRef}
                 />
-                <div className="flex-row">
-                  <InputField
-                    isRequired={true}
-                    label="Course*"
-                    compRef={this.courseInputRef}
-                  />
-                  <InputField
-                    isRequired={true}
-                    label="Degree Type*"
-                    placeholder="Bachelors"
-                    listID="degrees"
-                    list={this.degreeTypes}
-                    compRef={this.degreeTypeInputRef}
-                  />
-                </div>
-                <div className="flex-row">
-                  <InputField
-                    isRequired={true}
-                    label="From*"
-                    placeholder="Year"
-                    compRef={this.eduFromInputRef}
-                  />
-                  <InputField
-                    label="To(empty for ongoing)"
-                    placeholder="Year"
-                    compRef={this.eduToInputRef}
-                  />
-                </div>
-                <Button className="add-btn" btnType="submit">Add</Button>
-              </form>
-              <ul className="education-items">
-                {this.getCVEducationDataItemsFrom(this.state.eduItems)}
-              </ul>
-            </Section>
-
-            <Section sectionTitle="Practical Experience">
-              <form className="cv-form" onSubmit={this.addPracticalExpItem}>
-                <div className="flex-row">
-                  <InputField
-                    isRequired={true}
-                    label="Company*"
-                    compRef={this.companyInputRef}
-                  />
-                  <InputField
-                    isRequired={true}
-                    label="Position*"
-                    compRef={this.positionInputRef}
-                  />
-                </div>
-                <div className="flex-row">
-                  <InputField
-                    isRequired={true}
-                    label="From*"
-                    placeholder="Year"
-                    compRef={this.practicalFromInputRef}
-                  />
-                  <InputField
-                    label="To(empty for ongoing)"
-                    placeholder="Year"
-                    compRef={this.practicalToInputRef}
-                  />
-                </div>
-                <TextArea
-                  label="Highlights"
-                  compRef={this.highlightsInputRef}
+                <InputField
+                  isRequired={true}
+                  label="Degree Type*"
+                  placeholder="Bachelors"
+                  listID="degrees"
+                  list={degreeTypes}
+                  compRef={degreeTypeInputRef}
                 />
-                <Button className="add-btn" btnType="submit">Add</Button>
-              </form>
-              <ul className="practical-exp-items">
-                {this.getCVPracticalExpDataItemsFrom(this.state.practicalExpItems)}
-              </ul>
-            </Section>
-
-            <ReactToPrint content={() => this.cvPreviewRef} trigger={() => generatePDFBtn} pageStyle={pageStyle} />
-          </section>
-
-          <section className="cv-preview">
-            <div className="preview" ref={el => (this.cvPreviewRef = el)}>
-              <div className="head">
-                <p className="full-name">{this.state.fullName}</p>
-                <p className="job-title">{this.state.jobTitle}</p>
               </div>
-              <div className="general">
-                <ul className="contact">
-                  <li>
-                    {this.state.email && (
-                      <>
-                        <img src={MailImg} alt="email" />
-                        <span className="email">{this.state.email}</span>
-                      </>
-                    )}
-                  </li>
-                  <li>
-                    {this.state.phoneNumber && (
-                      <>
-                        <img src={PhoneImg} alt="phone" />
-                        <span className="phone-number">
-                          {this.state.phoneNumber}
-                        </span>
-                      </>
-                    )}
-                  </li>
-                  <li>
-                    {this.state.linkedIn && (
-                      <>
-                        <img src={LinkedInImg} alt="linkedin" />
-                        <span className="linkedin-url">
-                          {this.state.linkedIn}
-                        </span>
-                      </>
-                    )}
-                  </li>
-                  <li>
-                    {this.state.personalSite && (
-                      <>
-                        <img src={HomeImg} alt="house" />
-                        <span className="personal-site">
-                          {this.state.personalSite}
-                        </span>
-                      </>
-                    )}
-                  </li>
-                </ul>
-                <p className="description">{this.state.desc}</p>
+              <div className="flex-row">
+                <InputField
+                  isRequired={true}
+                  label="From*"
+                  placeholder="Year"
+                  compRef={eduFromInputRef}
+                />
+                <InputField
+                  label="To(empty for ongoing)"
+                  placeholder="Year"
+                  compRef={eduToInputRef}
+                />
               </div>
-              <section className="education" aria-label="Education">
-                <h2 className="section-title">Education</h2>
-                <hr />
-                <ul className="list">
-                  {this.getCVEducationPreviewItemsFrom(this.state.eduItems)}
-                </ul>
-              </section>
-              <section
-                className="practical-exp"
-                aria-label="Practical Experience"
-              >
-                <h2 className="section-title">Practical Experience</h2>
-                <hr />
-                <ul className="list">{this.getCVPracticalExpPreviewItemsFrom(this.state.practicalExpItems)}</ul>
-              </section>
+              <Button className="add-btn" btnType="submit">
+                Add
+              </Button>
+            </form>
+            <ul className="education-items">
+              {getCVEducationDataItemsFrom(appState.eduItems)}
+            </ul>
+          </Section>
+
+          <Section sectionTitle="Work Experience">
+            <form className="cv-form" onSubmit={addPracticalExpItem}>
+              <div className="flex-row">
+                <InputField
+                  isRequired={true}
+                  label="Company*"
+                  compRef={companyInputRef}
+                />
+                <InputField
+                  isRequired={true}
+                  label="Position*"
+                  compRef={positionInputRef}
+                />
+              </div>
+              <div className="flex-row">
+                <InputField
+                  isRequired={true}
+                  label="From*"
+                  placeholder="Year"
+                  compRef={practicalFromInputRef}
+                />
+                <InputField
+                  label="To(empty for ongoing)"
+                  placeholder="Year"
+                  compRef={practicalToInputRef}
+                />
+              </div>
+              <TextArea label="Highlights" compRef={highlightsInputRef} />
+              <Button className="add-btn" btnType="submit">
+                Add
+              </Button>
+            </form>
+            <ul className="practical-exp-items">
+              {getCVPracticalExpDataItemsFrom(appState.practicalExpItems)}
+            </ul>
+          </Section>
+
+          <ReactToPrint
+            content={() => previewRef}
+            trigger={() => generatePDFBtn}
+            pageStyle={pageStyle}
+          />
+        </section>
+
+        <section className="cv-preview">
+          <div className="preview" ref={(el) => (previewRef = el)}>
+            <div className="head">
+              <p className="full-name">{appState.fullName}</p>
+              <p className="job-title">{appState.jobTitle}</p>
             </div>
-          </section>
-        </main>
-      </>
-    );
-  }
-}
+            <div className="general">
+              <ul className="contact">
+                <li>
+                  {appState.email && (
+                    <>
+                      <img src={MailImg} alt="email" />
+                      <span className="email">{appState.email}</span>
+                    </>
+                  )}
+                </li>
+                <li>
+                  {appState.phoneNumber && (
+                    <>
+                      <img src={PhoneImg} alt="phone" />
+                      <span className="phone-number">
+                        {appState.phoneNumber}
+                      </span>
+                    </>
+                  )}
+                </li>
+                <li>
+                  {appState.linkedIn && (
+                    <>
+                      <img src={LinkedInImg} alt="linkedin" />
+                      <span className="linkedin-url">{appState.linkedIn}</span>
+                    </>
+                  )}
+                </li>
+                <li>
+                  {appState.personalSite && (
+                    <>
+                      <img src={HomeImg} alt="house" />
+                      <span className="personal-site">
+                        {appState.personalSite}
+                      </span>
+                    </>
+                  )}
+                </li>
+              </ul>
+              <p className="description">{appState.desc}</p>
+            </div>
+            <section className="education" aria-label="Education">
+              <h2 className="section-title">Education</h2>
+              <hr />
+              <ul className="list">
+                {getCVEducationPreviewItemsFrom(appState.eduItems)}
+              </ul>
+            </section>
+            <section
+              className="practical-exp"
+              aria-label="Work Experience"
+            >
+              <h2 className="section-title">Work Experience</h2>
+              <hr />
+              <ul className="list">
+                {getCVPracticalExpPreviewItemsFrom(appState.practicalExpItems)}
+              </ul>
+            </section>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+};
 
 export default App;

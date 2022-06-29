@@ -96,6 +96,7 @@ main {
 
 .preview {
     width: max-content;
+    max-width: 900px;
     box-shadow: -3px -3px 10px rgb(85, 85, 85);
     background-color: #F0F0F0;
     height: 100%;
@@ -120,7 +121,9 @@ main {
     color: #373737;
     display: grid;
     grid-template-columns: repeat(2, max-content);
-    grid-template-rows: repeat(2, max-content);
+    grid-template-rows: 1fr max-content;
+    justify-content: space-between;
+    grid-auto-rows: 1fr;
     gap: 0.5rem 2rem;
 }
 
@@ -129,15 +132,11 @@ main {
     margin-right: 4px;
 }
 
-.contact > li {
-    flex-basis: 30%;
-    flex-grow: 1;
-}
-
 .description {
-    margin-top: 1%;
-    max-width: 700px;
+    margin: 1% auto 0 auto;
+    /* max-width: 700px; */
     text-align: justify;
+    font-style: italic;
 }
 
 .preview section * {
