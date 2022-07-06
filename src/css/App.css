@@ -95,6 +95,8 @@ main {
 }
 
 .preview {
+    min-height: 1340px;
+    min-width: 700px;
     width: max-content;
     max-width: 900px;
     box-shadow: -3px -3px 10px rgb(85, 85, 85);
