@@ -95,11 +95,7 @@ main {
 }
 
 .preview {
-<<<<<<< HEAD
     min-height: 1040px;
-=======
-    min-height: 1340px;
->>>>>>> e92c3c59035e501a6f05d386210ef9fbbf217369
     min-width: 700px;
     width: max-content;
     max-width: 900px;
