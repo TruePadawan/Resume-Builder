@@ -14,12 +14,6 @@ const EducationPreviewItem = (props) => {
             <span className="timeframe">{`${from} - ${to}`}</span>
             <span className="degree-type">{degreeType}</span>
           </div>
-          {/* <span className="timeframe">{`${from} - ${to}`}</span>
-          <ul className="details">
-            <li className="school">{school}</li>
-            <li className="course">{course}</li>
-            <li className="degree-type">{`${degreeType} Degree`}</li>
-          </ul> */}
         </li>
     );
 }
