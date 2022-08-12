@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;1,400&display=swap');
 
 html {
     box-sizing: border-box;
@@ -8,10 +9,13 @@ html {
 }
 
 *, *::after, *::before {
-    font-family: 'Source Sans Pro', sans-serif;
     box-sizing: inherit;
     margin: 0;
     padding: 0;
+}
+
+h1 {
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 body, #root {
@@ -29,5 +33,5 @@ button {
 }
 
 hr {
-    margin-top: 10px;
+    background-color: #202020;
 }

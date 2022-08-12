@@ -17,6 +17,7 @@ main {
 }
 
 .cv-data {
+    font-family: 'Source Sans Pro', sans-serif;
     padding: 3rem 3rem 3rem 3rem;
     display: flex;
     flex-direction: column;
@@ -24,6 +25,7 @@ main {
 }
 
 .cv-preview {
+    font-family: 'Source Sans Pro', sans-serif;
     padding: 3rem 3rem 3rem 3rem;
 }
 
@@ -115,8 +117,12 @@ main {
     background-color: rgb(152, 150, 150);
 }
 
-.general, .education, .practical-exp {
-    padding: 12px 20px;
+.preview-section {
+    padding: 8px 16px;
+}
+
+.general {
+    padding-bottom: 0;
 }
 
 .contact {
@@ -136,22 +142,14 @@ main {
 
 .description {
     margin: 1% auto 0 auto;
-    /* max-width: 700px; */
     text-align: justify;
     font-style: italic;
 }
 
-.preview section * {
-    font-family: 'Poppins', sans-serif;
-}
-
-hr {
-    margin-bottom: 7px;
-}
-
 .section-title {
+    font-family: 'Playfair Display SC', serif;
     font-weight: normal;
-    font-size: 2rem;
+    font-size: 1.4rem;
 }
 
 .list {
