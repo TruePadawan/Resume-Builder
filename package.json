@@ -1,7 +1,7 @@
 {
   "name": "cv-application",
   "version": "0.1.0",
-  "homepage": "https://truepadawan.github.io/CV-Builder/",
+  "homepage": "https://truepadawan.github.io/Resume-Builder/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
