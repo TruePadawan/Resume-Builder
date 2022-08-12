@@ -53,9 +53,9 @@ const App = () => {
   
   const degreeTypes = (
     <datalist id="degrees">
-      <option value="Bachelor's" />
+      <option value="Bachelors" />
       <option value="Associate" />
-      <option value="Master's" />
+      <option value="Masters" />
       <option value="Doctoral" />
       <option value="Professional" />
     </datalist>
@@ -273,7 +273,7 @@ const App = () => {
 
   return (
     <>
-      <h1>CV Builder</h1>
+      <h1>Resume Builder</h1>
       <main>
         <section className="cv-data">
           <Section sectionTitle="General Information">
@@ -303,14 +303,12 @@ const App = () => {
               <div className="flex-row">
                 <InputField
                   label="LinkedIn URL"
-                  type={"url"}
-                  placeholder="https://linkedin.com/in/mary-sue"
+                  placeholder="linkedin.com/in/mary-sue"
                   compRef={linkedinInputRef}
                 />
                 <InputField
                   label="Personal Site"
-                  type={"url"}
-                  placeholder="https://marysue.com"
+                  placeholder="marysue.com"
                   compRef={personalSiteInputRef}
                 />
               </div>
@@ -347,11 +345,13 @@ const App = () => {
                 <InputField
                   isRequired={true}
                   label="From*"
+                  type={"number"}
                   placeholder="Year"
                   compRef={eduFromInputRef}
                 />
                 <InputField
                   label="To(empty for ongoing)"
+                  type={"number"}
                   placeholder="Year"
                   compRef={eduToInputRef}
                 />
@@ -415,7 +415,7 @@ const App = () => {
               <p className="full-name">{appState.fullName}</p>
               <p className="job-title">{appState.jobTitle}</p>
             </div>
-            <div className="general">
+            <div className="general preview-section">
               <ul className="contact">
                 <li>
                   {appState.email && (
@@ -456,7 +456,7 @@ const App = () => {
               </ul>
               <p className="description">{appState.desc}</p>
             </div>
-            <section className="education" aria-label="Education">
+            <section className="preview-section" aria-label="Education">
               <h2 className="section-title">Education</h2>
               <hr />
               <ul className="list">
@@ -464,7 +464,7 @@ const App = () => {
               </ul>
             </section>
             <section
-              className="practical-exp"
+              className="preview-section"
               aria-label="Work Experience"
             >
               <h2 className="section-title">Work Experience</h2>

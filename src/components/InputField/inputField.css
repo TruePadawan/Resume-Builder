@@ -7,10 +7,10 @@
 .inputField > label {
     color: white;
     font-weight: normal;
-    font-family: 'Poppins', sans-serif;
 }
 
 .inputField > input, .inputField > textarea {
+    font-family: 'Source Sans Pro', sans-serif;
     color: aliceblue;
     background-color: #636262;
     border: none;
