@@ -9,7 +9,7 @@
     font-weight: normal;
 }
 
-.inputField > input, .inputField > textarea {
+.inputField > input, .inputField > textarea, .inputField > select {
     font-family: 'Source Sans Pro', sans-serif;
     color: aliceblue;
     background-color: #636262;
@@ -27,7 +27,9 @@
     min-height: 5rem;
 }
 
-.inputField > input:focus, .inputField > textarea:focus {
+.inputField > input:focus,
+.inputField > textarea:focus,
+.inputField > select:focus {
     outline: none;
 }
 

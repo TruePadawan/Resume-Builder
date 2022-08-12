@@ -3,16 +3,17 @@ import Button from "./components/Button/Button";
 import Section from "./components/Section/Section";
 import { v4 as uuidv4 } from "uuid";
 import { InputField, TextArea } from "./components/InputField/InputField";
-import EducationPreviewItem from "./components/PreviewItems/EducationPreviewItem";
 import ReactToPrint from "react-to-print";
-
 import PhoneImg from "./images/phone.png";
 import HomeImg from "./images/home.png";
 import LinkedInImg from "./images/linkedin.png";
 import MailImg from "./images/mail.png";
-import EducationDataItem from "./components/DataItems/EducationDataItem";
-import PracticalExpPreviewItem from "./components/PreviewItems/PracticalExpPreviewItem";
-import PracticalExpDataItem from "./components/DataItems/PracticalExpDataItem";
+
+import EducationItem from "./components/DataItems/EducationItem";
+import EducationPreviewItem from "./components/PreviewItems/EducationPreviewItem";
+import WorkItem from "./components/DataItems/WorkItem";
+import WorkPreviewItem from "./components/PreviewItems/WorkPreviewItem";
+import WorkExperience from "./components/PageSections/WorkExperience";
 
 import "./css/App.css";
 
@@ -26,7 +27,7 @@ const App = () => {
     personalSite: "",
     desc: "",
     eduItems: [],
-    practicalExpItems: [],
+    workItems: [],
   });
 
   const fullNameInputRef = useRef();
@@ -43,21 +44,15 @@ const App = () => {
   const eduFromInputRef = useRef();
   const eduToInputRef = useRef();
 
-  const companyInputRef = useRef();
-  const positionInputRef = useRef();
-  const practicalFromInputRef = useRef();
-  const practicalToInputRef = useRef();
-  const highlightsInputRef = useRef();
-
   let previewRef;
   
   const degreeTypes = (
     <datalist id="degrees">
-      <option value="Bachelors" />
-      <option value="Associate" />
-      <option value="Masters" />
-      <option value="Doctoral" />
-      <option value="Professional" />
+      <option value={"Bachelors"} />
+      <option value={"Associate"} />
+      <option value={"Masters"} />
+      <option value={"Doctoral"} />
+      <option value={"Professional"} />
     </datalist>
   );
 
@@ -67,14 +62,6 @@ const App = () => {
     degreeTypeInputRef.current.value = "";
     eduFromInputRef.current.value = "";
     eduToInputRef.current.value = "";
-  };
-
-  const clearPracticalExpInputFields = () => {
-    companyInputRef.current.value = "";
-    positionInputRef.current.value = "";
-    practicalFromInputRef.current.value = "";
-    practicalToInputRef.current.value = "";
-    highlightsInputRef.current.value = "";
   };
 
   const updateGeneralInfo = (e) => {
@@ -106,14 +93,14 @@ const App = () => {
     });
   };
 
-  const updatePracticalExpItem = (data) => {
+  const updateWorkItem = (data) => {
     const { id } = data;
     setAppState((latest) => {
-      const currentPracticalExpItems = [...latest.practicalExpItems];
-      let itemIndex = currentPracticalExpItems.findIndex((item) => item.id === id);
-      currentPracticalExpItems[itemIndex] = data;
+      const currentWorkItems = [...latest.workItems];
+      let itemIndex = currentWorkItems.findIndex((item) => item.id === id);
+      currentWorkItems[itemIndex] = data;
       const updatedState = { ...latest };
-      updatedState.practicalExpItems = currentPracticalExpItems;
+      updatedState.workItems = currentWorkItems;
       return updatedState;
     });
   };
@@ -143,29 +130,16 @@ const App = () => {
     clearEducationInputFields();
   };
 
-  const addPracticalExpItem = (e) => {
-    e.preventDefault();
-
-    const id = uuidv4();
-    const company = companyInputRef.current.value;
-    const position = positionInputRef.current.value;
-    const from = +practicalFromInputRef.current.value;
-    const to = practicalToInputRef.current.value;
-    const highlights = highlightsInputRef.current.value;
-
-    const practicalExpItem = { id, company, position, from, to, highlights };
-
+  const addWorkItem = (item) => {
     setAppState((latest) => {
-      const latestItems = [...latest.practicalExpItems];
-      latestItems.unshift(practicalExpItem);
+      const latestItems = [...latest.workItems];
+      latestItems.unshift(item);
 
       const updatedState = { ...latest };
-      updatedState.practicalExpItems = latestItems;
+      updatedState.workItems = latestItems;
       
       return updatedState;
     });
-
-    clearPracticalExpInputFields();
   };
 
   const getCVEducationDataItemsFrom = (data) => {
@@ -188,7 +162,7 @@ const App = () => {
       };
 
       return (
-        <EducationDataItem
+        <EducationItem
           itemData={item}
           key={data.id}
           formSubmitHandler={updateSelf}
@@ -204,7 +178,7 @@ const App = () => {
     });
   };
 
-  const getCVPracticalExpDataItemsFrom = (data) => {
+  const getWorkItems = (data) => {
     return data.map((item) => {
       const updateSelf = (e) => {
         e.preventDefault();
@@ -216,15 +190,15 @@ const App = () => {
         const highlights = e.target["4"].value;
 
         let itemData = { id: item.id, from, to, company, position, highlights };
-        updatePracticalExpItem(itemData);
+        updateWorkItem(itemData);
       };
 
       const deleteSelf = () => {
-        deletePracticalExpItem(item.id);
+        removeWorkItem(item.id);
       };
 
       return (
-        <PracticalExpDataItem
+        <WorkItem
           itemData={item}
           key={data.id}
           formSubmitHandler={updateSelf}
@@ -234,9 +208,9 @@ const App = () => {
     });
   };
 
-  const getCVPracticalExpPreviewItemsFrom = (data) => {
+  const getWorkPreviewItems = (data) => {
     return data.map((item) => (
-      <PracticalExpPreviewItem itemData={item} key={data.id} />
+      <WorkPreviewItem itemData={item} key={data.id} />
     ));
   };
 
@@ -250,14 +224,12 @@ const App = () => {
     });
   };
 
-  const deletePracticalExpItem = (id) => {
+  const removeWorkItem = (id) => {
     setAppState((latest) => {
-      const currentPracticalExpItems = [...latest.practicalExpItems];
-      const filteredItems = currentPracticalExpItems.filter(
-        (item) => item.id !== id
-      );
+      const currentPracticalExpItems = [...latest.workItems];
+      const filteredItems = currentPracticalExpItems.filter((item) => item.id !== id);
       const updatedState = { ...latest };
-      updatedState.practicalExpItems = filteredItems;
+      updatedState.workItems = filteredItems;
       return updatedState;
     });
   };
@@ -270,6 +242,9 @@ const App = () => {
         margin: 0;
       }
     `;
+
+  const workItems = getWorkItems(appState.workItems);
+  const workPreviewItems = getWorkPreviewItems(appState.workItems);
 
   return (
     <>
@@ -334,7 +309,7 @@ const App = () => {
                 />
                 <InputField
                   isRequired={true}
-                  label="Degree Type*"
+                  label="Degree type*"
                   placeholder="Bachelors"
                   listID="degrees"
                   list={degreeTypes}
@@ -365,42 +340,9 @@ const App = () => {
             </ul>
           </Section>
 
-          <Section sectionTitle="Work Experience">
-            <form className="cv-form" onSubmit={addPracticalExpItem}>
-              <div className="flex-row">
-                <InputField
-                  isRequired={true}
-                  label="Company*"
-                  compRef={companyInputRef}
-                />
-                <InputField
-                  isRequired={true}
-                  label="Position*"
-                  compRef={positionInputRef}
-                />
-              </div>
-              <div className="flex-row">
-                <InputField
-                  isRequired={true}
-                  label="From*"
-                  placeholder="Year"
-                  compRef={practicalFromInputRef}
-                />
-                <InputField
-                  label="To(empty for ongoing)"
-                  placeholder="Year"
-                  compRef={practicalToInputRef}
-                />
-              </div>
-              <TextArea label="Highlights" compRef={highlightsInputRef} />
-              <Button className="add-btn" btnType="submit">
-                Add
-              </Button>
-            </form>
-            <ul className="practical-exp-items">
-              {getCVPracticalExpDataItemsFrom(appState.practicalExpItems)}
-            </ul>
-          </Section>
+          <WorkExperience addItem={addWorkItem}>
+            <ul className="practical-exp-items">{workItems}</ul>
+          </WorkExperience>
 
           <ReactToPrint
             content={() => previewRef}
@@ -463,15 +405,10 @@ const App = () => {
                 {getCVEducationPreviewItemsFrom(appState.eduItems)}
               </ul>
             </section>
-            <section
-              className="preview-section"
-              aria-label="Work Experience"
-            >
+            <section className="preview-section" aria-label="Work Experience">
               <h2 className="section-title">Work Experience</h2>
               <hr />
-              <ul className="list">
-                {getCVPracticalExpPreviewItemsFrom(appState.practicalExpItems)}
-              </ul>
+              <ul className="list">{workPreviewItems}</ul>
             </section>
           </div>
         </section>
