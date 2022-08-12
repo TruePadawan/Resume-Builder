@@ -1,6 +1,6 @@
 import "./previewItem.css";
 
-const PracticalExpPreviewItem = ({ itemData }) => {
+const WorkPreviewItem = ({ itemData }) => {
     let { id, company, position, from, to, highlights } = itemData;
       if (to === undefined || to === "") to = "Ongoing";
 
@@ -16,4 +16,4 @@ const PracticalExpPreviewItem = ({ itemData }) => {
       );
 }
 
-export default PracticalExpPreviewItem;
+export default WorkPreviewItem;
