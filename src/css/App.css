@@ -158,11 +158,6 @@ main {
     gap: 5px;
 }
 
-.education-items input, .practical-exp-items input {
-    background-color: #ababab;
-    color: black;
-}
-
 .work-ongoing > label {
     margin-left: 5px;
     color: ghostwhite;

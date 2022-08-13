@@ -7,7 +7,7 @@ const EducationItem = (props) => {
   if (to === undefined) to = "";
 
   return (
-    <li key={id}>
+    <li key={id} className="edu-item data">
       <hr />
       <form className="cv-form" onSubmit={props.formSubmitHandler}>
         <InputField isRequired={true} label="University*" value={school} />

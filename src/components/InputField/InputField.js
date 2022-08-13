@@ -12,6 +12,7 @@ export const InputField = (props) => {
   const value = props.value;
   const list = props.listID;
   const dataList = props.list;
+  const disabled = props.disabled || false;
   const className = props.className;
 
   if (isInputRequired) {
@@ -19,6 +20,7 @@ export const InputField = (props) => {
       <span className="inputField">
         <label htmlFor={inputLabel}>{inputLabel}</label>
         <input
+          disabled={disabled}
           className={className}
           id={inputLabel}
           type={inputType}
@@ -36,6 +38,7 @@ export const InputField = (props) => {
     <span className="inputField">
       <label htmlFor={inputLabel}>{inputLabel}</label>
       <input
+        disabled={disabled}
         className={className}
         id={inputLabel}
         type={inputType}

@@ -1,19 +1,12 @@
-.item {
-    display: flex;
-    justify-content: space-between;
-    background-color: rgba(219, 219, 219, 0.32);
-    padding: 5px;
-    gap: 4rem;
-}
-
-.edu-item {
+.edu-preview-item {
     font-family: 'Playfair Display', serif;
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.college-name-course, .timeframe-degree-type {
+.college-name-course,
+.timeframe-degree-type {
     display: flex;
     justify-content: space-between;
 }
@@ -32,4 +25,38 @@
 .timeframe-degree-type {
     font-size: 16px;
     font-style: italic;
+}
+
+.work-preview-item {
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.work-preview-item .details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.work-preview-item .main {
+    display: flex;
+    gap: 2px;
+}
+
+.work-preview-item .position {
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.work-preview-item .company {
+    font-size: 0.8rem;
+}
+
+.work-preview-item .employment-type {
+    margin-top: 3px;
+    font-family: 'Playfair Display SC', sans-serif;
+}
+
+.work-preview-item .timeframe {
+    color: #464646;
 }

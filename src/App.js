@@ -180,16 +180,7 @@ const App = () => {
 
   const getWorkItems = (data) => {
     return data.map((item) => {
-      const updateSelf = (e) => {
-        e.preventDefault();
-
-        const company = e.target["0"].value;
-        const position = e.target["1"].value;
-        const from = e.target["2"].value;
-        const to = e.target["3"].value;
-        const highlights = e.target["4"].value;
-
-        let itemData = { id: item.id, from, to, company, position, highlights };
+      const updateSelf = (itemData) => {
         updateWorkItem(itemData);
       };
 
@@ -200,8 +191,7 @@ const App = () => {
       return (
         <WorkItem
           itemData={item}
-          key={data.id}
-          formSubmitHandler={updateSelf}
+          updateSelf={updateSelf}
           onDeleteBtnClicked={deleteSelf}
         />
       );
@@ -341,7 +331,7 @@ const App = () => {
           </Section>
 
           <WorkExperience addItem={addWorkItem}>
-            <ul className="practical-exp-items">{workItems}</ul>
+            <ul className="work-items">{workItems}</ul>
           </WorkExperience>
 
           <ReactToPrint
