@@ -13,10 +13,10 @@
     text-align: justify;
 }
 
-.edu-items input,
-.work-items input,
-.work-items select,
-.work-items textarea {
+.edu-item input,
+.work-item input,
+.work-item select,
+.work-item textarea {
     background-color: #ababab;
     color: black;
 }

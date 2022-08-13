@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import Button from "./components/Button/Button";
 import Section from "./components/Section/Section";
-import { v4 as uuidv4 } from "uuid";
 import { InputField, TextArea } from "./components/InputField/InputField";
 import ReactToPrint from "react-to-print";
 import PhoneImg from "./images/phone.png";
@@ -16,6 +15,7 @@ import WorkPreviewItem from "./components/PreviewItems/WorkPreviewItem";
 import WorkExperience from "./components/PageSections/WorkExperience";
 
 import "./css/App.css";
+import Education from "./components/PageSections/Education";
 
 const App = () => {
   const [appState, setAppState] = useState({
@@ -38,14 +38,6 @@ const App = () => {
   const personalSiteInputRef = useRef();
   const descInputRef = useRef();
 
-  const universityInputRef = useRef();
-  const courseInputRef = useRef();
-  const degreeTypeInputRef = useRef();
-  const eduFromInputRef = useRef();
-  const eduToInputRef = useRef();
-
-  let previewRef;
-  
   const degreeTypes = (
     <datalist id="degrees">
       <option value={"Bachelors"} />
@@ -56,13 +48,7 @@ const App = () => {
     </datalist>
   );
 
-  const clearEducationInputFields = () => {
-    universityInputRef.current.value = "";
-    courseInputRef.current.value = "";
-    degreeTypeInputRef.current.value = "";
-    eduFromInputRef.current.value = "";
-    eduToInputRef.current.value = "";
-  };
+  let previewRef;
 
   const updateGeneralInfo = (e) => {
     e.preventDefault();
@@ -104,29 +90,16 @@ const App = () => {
     });
   };
 
-  const addEducationItem = (e) => {
-    e.preventDefault();
-
-    const id = uuidv4();
-    const from = eduFromInputRef.current.value;
-    const to = eduToInputRef.current.value;
-    const school = universityInputRef.current.value;
-    const course = courseInputRef.current.value;
-    const degreeType = degreeTypeInputRef.current.value;
-
-    const eduItem = { id, from, to, school, course, degreeType };
-
+  const addEducationItem = (item) => {
     setAppState((latest) => {
       const latestEduItems = [...latest.eduItems];
-      latestEduItems.unshift(eduItem);
+      latestEduItems.unshift(item);
 
       const updatedState = { ...latest };
       updatedState.eduItems = latestEduItems;
 
       return updatedState;
     });
-
-    clearEducationInputFields();
   };
 
   const addWorkItem = (item) => {
@@ -141,45 +114,36 @@ const App = () => {
     });
   };
 
-  const getCVEducationDataItemsFrom = (data) => {
+  const getEducationItems = (data) => {
     return data.map((item) => {
-      const updateSelf = (e) => {
-        e.preventDefault();
-
-        const from = e.target["3"].value;
-        const to = e.target["4"].value;
-        const school = e.target["0"].value;
-        const course = e.target["1"].value;
-        const degreeType = e.target["2"].value;
-
-        let itemData = { id: item.id, from, to, school, course, degreeType };
+      const updateSelf = (itemData) => {
         updateEducationItem(itemData);
       };
 
       const deleteSelf = () => {
-        deleteEducationItem(item.id);
+        removeEducationItem(item.id);
       };
 
       return (
         <EducationItem
           itemData={item}
-          key={data.id}
-          formSubmitHandler={updateSelf}
+          key={item.id}
+          degreeTypes={degreeTypes}
+          onUpdate={updateSelf}
           onDeleteBtnClicked={deleteSelf}
         />
       );
     });
   };
 
-  const getCVEducationPreviewItemsFrom = (data) => {
+  const getEducationPreviewItems = (data) => {
     return data.map((item) => {
-      return <EducationPreviewItem itemData={item} key={data.id} />;
+      return <EducationPreviewItem itemData={item} key={item.id} />;
     });
   };
 
   const getWorkItems = (data) => {
     return data.map((item) => {
-      console.log(item);
       const updateSelf = (itemData) => {
         updateWorkItem(itemData);
       };
@@ -190,9 +154,9 @@ const App = () => {
 
       return (
         <WorkItem
-          key={item.id}
           itemData={item}
-          updateSelf={updateSelf}
+          key={item.id}
+          onUpdate={updateSelf}
           onDeleteBtnClicked={deleteSelf}
         />
       );
@@ -201,11 +165,11 @@ const App = () => {
 
   const getWorkPreviewItems = (data) => {
     return data.map((item) => (
-      <WorkPreviewItem itemData={item} key={data.id} />
+      <WorkPreviewItem itemData={item} key={item.id} />
     ));
   };
 
-  const deleteEducationItem = (id) => {
+  const removeEducationItem = (id) => {
     setAppState((latest) => {
       const currentEduItems = [...latest.eduItems];
       const updatedEduItems = currentEduItems.filter((item) => item.id !== id);
@@ -234,6 +198,8 @@ const App = () => {
       }
     `;
 
+  const educationItems = getEducationItems(appState.eduItems);
+  const educationPreviewItems = getEducationPreviewItems(appState.eduItems);
   const workItems = getWorkItems(appState.workItems);
   const workPreviewItems = getWorkPreviewItems(appState.workItems);
 
@@ -285,54 +251,12 @@ const App = () => {
             </form>
           </Section>
 
-          <Section sectionTitle="Education">
-            <form className="cv-form" onSubmit={addEducationItem}>
-              <InputField
-                isRequired={true}
-                label="University*(in full)"
-                compRef={universityInputRef}
-              />
-              <div className="flex-row">
-                <InputField
-                  isRequired={true}
-                  label="Course*"
-                  compRef={courseInputRef}
-                />
-                <InputField
-                  isRequired={true}
-                  label="Degree type*"
-                  placeholder="Bachelors"
-                  listID="degrees"
-                  list={degreeTypes}
-                  compRef={degreeTypeInputRef}
-                />
-              </div>
-              <div className="flex-row">
-                <InputField
-                  isRequired={true}
-                  label="From*"
-                  type={"number"}
-                  placeholder="Year"
-                  compRef={eduFromInputRef}
-                />
-                <InputField
-                  label="To(empty for ongoing)"
-                  type={"number"}
-                  placeholder="Year"
-                  compRef={eduToInputRef}
-                />
-              </div>
-              <Button className="add-btn" btnType="submit">
-                Add
-              </Button>
-            </form>
-            <ul className="education-items">
-              {getCVEducationDataItemsFrom(appState.eduItems)}
-            </ul>
-          </Section>
+          <Education addItem={addEducationItem} degreeTypes={degreeTypes}>
+            <ul>{educationItems}</ul>
+          </Education>
 
           <WorkExperience addItem={addWorkItem}>
-            <ul className="work-items">{workItems}</ul>
+            <ul>{workItems}</ul>
           </WorkExperience>
 
           <ReactToPrint
@@ -393,7 +317,7 @@ const App = () => {
               <h2 className="section-title">Education</h2>
               <hr />
               <ul className="list">
-                {getCVEducationPreviewItemsFrom(appState.eduItems)}
+                {educationPreviewItems}
               </ul>
             </section>
             <section className="preview-section" aria-label="Work Experience">

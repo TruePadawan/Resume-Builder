@@ -29,7 +29,7 @@ const WorkItem = (props) => {
     };
 
     if (isWorkOngoing) itemData.to = "Present";
-    props.updateSelf(itemData);
+    props.onUpdate(itemData);
   }
 
   return (

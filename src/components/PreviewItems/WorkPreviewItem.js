@@ -7,7 +7,7 @@ const WorkPreviewItem = ({ itemData }) => {
     if (to !== "Present") to = format(new Date(to), 'MMM yyy');
     
       return (
-        <li className="work-preview-item" key={id}>
+        <li className="work-preview-item">
           <div className="details">
             <div className="main">
               <span className="position-company">

@@ -5,7 +5,7 @@ const EducationPreviewItem = (props) => {
     if (to === undefined || to === "") to = "Ongoing";
 
     return (
-        <li className="edu-preview-item" key={id}>
+        <li className="edu-preview-item">
           <div className="college-name-course">
             <span className="school">{school}</span>
             <span className="course">{course}</span>
