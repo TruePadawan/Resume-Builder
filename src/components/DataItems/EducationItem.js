@@ -27,7 +27,7 @@ const EducationItem = (props) => {
   }
 
   return (
-    <li className="edu-item data">
+    <li className="data-item">
       <hr />
       <form className="cv-form" onSubmit={submitHandler}>
         <InputField

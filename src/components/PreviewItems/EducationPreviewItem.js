@@ -1,7 +1,7 @@
 import "./previewItem.css";
 
 const EducationPreviewItem = (props) => {
-    let { id, from, to, school, course, degreeType } = props.itemData;
+    let { from, to, school, course, degreeType } = props.itemData;
     if (to === undefined || to === "") to = "Ongoing";
 
     return (

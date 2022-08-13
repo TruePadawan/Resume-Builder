@@ -1,7 +1,5 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Button from "./components/Button/Button";
-import Section from "./components/Section/Section";
-import { InputField, TextArea } from "./components/InputField/InputField";
 import ReactToPrint from "react-to-print";
 import PhoneImg from "./images/phone.png";
 import HomeImg from "./images/home.png";
@@ -13,13 +11,16 @@ import EducationPreviewItem from "./components/PreviewItems/EducationPreviewItem
 import WorkItem from "./components/DataItems/WorkItem";
 import WorkPreviewItem from "./components/PreviewItems/WorkPreviewItem";
 import WorkExperience from "./components/PageSections/WorkExperience";
-
-import "./css/App.css";
 import Education from "./components/PageSections/Education";
 import General from "./components/PageSections/General";
+import Projects from "./components/PageSections/Projects";
+import ProjectItem from "./components/DataItems/ProjectItem";
+
+import "./css/App.css";
+import ProjectPreviewItem from "./components/PreviewItems/ProjectPreviewItem";
 
 const App = () => {
-  const [appState, setAppState] = useState({
+  const [appData, setAppData] = useState({
     fullName: "",
     jobTitle: "",
     email: "",
@@ -29,6 +30,7 @@ const App = () => {
     desc: "",
     eduItems: [],
     workItems: [],
+    projectItems: [],
   });
 
   const degreeTypes = (
@@ -42,9 +44,43 @@ const App = () => {
   );
 
   let previewRef;
+  
+  const addEducationItem = (item) => {
+    setAppData((latest) => {
+      const latestEduItems = [...latest.eduItems];
+      latestEduItems.unshift(item);
+
+      const updatedState = { ...latest };
+      updatedState.eduItems = latestEduItems;
+
+      return updatedState;
+    });
+  };
+
+  const addWorkItem = (item) => {
+    setAppData((latest) => {
+      const latestItems = [...latest.workItems];
+      latestItems.unshift(item);
+
+      const updatedState = { ...latest };
+      updatedState.workItems = latestItems;
+      
+      return updatedState;
+    });
+  };
+
+  const addProjectItem = (item) => {
+    setAppData((latest) => {
+      const newListOfProjects = [...latest.projectItems];
+      newListOfProjects.unshift(item);
+      const newState = {...latest};
+      newState.projectItems = newListOfProjects
+      return newState;
+    })
+  }
 
   const updateGeneralInfo = (data) => {
-    setAppState((latest) => {
+    setAppData((latest) => {
       latest.fullName = data.fullName;
       latest.jobTitle = data.jobTitle;
       latest.email = data.email;
@@ -58,7 +94,7 @@ const App = () => {
 
   const updateEducationItem = (data) => {
     const { id } = data;
-    setAppState((latest) => {
+    setAppData((latest) => {
       const currentEduItems = [...latest.eduItems];
       let itemIndex = currentEduItems.findIndex((item) => item.id === id);
       currentEduItems[itemIndex] = data;
@@ -69,38 +105,22 @@ const App = () => {
     });
   };
 
+  const updateProjectItem = (newData) => {
+    setAppData((latest) => {
+      let itemIndex = latest.projectItems.findIndex((item) => item.id === newData.id);
+      latest.projectItems[itemIndex] = newData;
+      return {...latest};
+    });
+  };
+
   const updateWorkItem = (data) => {
     const { id } = data;
-    setAppState((latest) => {
+    setAppData((latest) => {
       const currentWorkItems = [...latest.workItems];
       let itemIndex = currentWorkItems.findIndex((item) => item.id === id);
       currentWorkItems[itemIndex] = data;
       const updatedState = { ...latest };
       updatedState.workItems = currentWorkItems;
-      return updatedState;
-    });
-  };
-
-  const addEducationItem = (item) => {
-    setAppState((latest) => {
-      const latestEduItems = [...latest.eduItems];
-      latestEduItems.unshift(item);
-
-      const updatedState = { ...latest };
-      updatedState.eduItems = latestEduItems;
-
-      return updatedState;
-    });
-  };
-
-  const addWorkItem = (item) => {
-    setAppState((latest) => {
-      const latestItems = [...latest.workItems];
-      latestItems.unshift(item);
-
-      const updatedState = { ...latest };
-      updatedState.workItems = latestItems;
-      
       return updatedState;
     });
   };
@@ -127,10 +147,36 @@ const App = () => {
     });
   };
 
-  const getEducationPreviewItems = (data) => {
-    return data.map((item) => {
+  const getEducationPreviewItems = (list) => {
+    return list.map((item) => {
       return <EducationPreviewItem itemData={item} key={item.id} />;
     });
+  };
+
+  const getProjectItems = (items) => {
+    return items.map(item => {
+      const updateItem = (itemData) => {
+        updateProjectItem(itemData);
+      };
+      const deleteItem = () => {
+        removeProjectItem(item.id);
+      }
+
+      return (
+        <ProjectItem
+          itemData={item}
+          onUpdate={updateItem}
+          onDeleteBtnClicked={deleteItem}
+          key={item.id}
+        />
+      );
+    });
+  }
+
+  const getProjectPreviewItems = (list) => {
+    return list.map((item) => (
+      <ProjectPreviewItem itemData={item} key={item.id}/>
+    ));
   };
 
   const getWorkItems = (data) => {
@@ -154,14 +200,14 @@ const App = () => {
     });
   };
 
-  const getWorkPreviewItems = (data) => {
-    return data.map((item) => (
+  const getWorkPreviewItems = (list) => {
+    return list.map((item) => (
       <WorkPreviewItem itemData={item} key={item.id} />
     ));
   };
 
   const removeEducationItem = (id) => {
-    setAppState((latest) => {
+    setAppData((latest) => {
       const currentEduItems = [...latest.eduItems];
       const updatedEduItems = currentEduItems.filter((item) => item.id !== id);
       const updatedState = { ...latest };
@@ -170,8 +216,16 @@ const App = () => {
     });
   };
 
+  const removeProjectItem = (id) => {
+    setAppData((latest) => {
+      const filteredProjects = latest.projectItems.filter((item) => item.id !== id);
+      latest.projectItems = filteredProjects;
+      return {...latest};
+    });
+  }
+
   const removeWorkItem = (id) => {
-    setAppState((latest) => {
+    setAppData((latest) => {
       const currentPracticalExpItems = [...latest.workItems];
       const filteredItems = currentPracticalExpItems.filter((item) => item.id !== id);
       const updatedState = { ...latest };
@@ -189,10 +243,12 @@ const App = () => {
       }
     `;
 
-  const educationItems = getEducationItems(appState.eduItems);
-  const educationPreviewItems = getEducationPreviewItems(appState.eduItems);
-  const workItems = getWorkItems(appState.workItems);
-  const workPreviewItems = getWorkPreviewItems(appState.workItems);
+  const educationItems = getEducationItems(appData.eduItems);
+  const educationPreviewItems = getEducationPreviewItems(appData.eduItems);
+  const workItems = getWorkItems(appData.workItems);
+  const workPreviewItems = getWorkPreviewItems(appData.workItems);
+  const projectItems = getProjectItems(appData.projectItems);
+  const projectPreviewItems = getProjectPreviewItems(appData.projectItems);
 
   return (
     <>
@@ -203,11 +259,12 @@ const App = () => {
           <Education addItem={addEducationItem} degreeTypes={degreeTypes}>
             <ul>{educationItems}</ul>
           </Education>
-
+          <Projects addItem={addProjectItem}>
+            <ul>{projectItems}</ul>
+          </Projects>
           <WorkExperience addItem={addWorkItem}>
             <ul>{workItems}</ul>
           </WorkExperience>
-
           <ReactToPrint
             content={() => previewRef}
             trigger={() => generatePDFBtn}
@@ -217,56 +274,63 @@ const App = () => {
 
         <section className="cv-preview">
           <div className="preview" ref={(el) => (previewRef = el)}>
-            <div className="head">
-              <p className="full-name">{appState.fullName}</p>
-              <p className="job-title">{appState.jobTitle}</p>
+            <div className="header">
+              <p className="full-name">{appData.fullName}</p>
+              <p className="job-title">{appData.jobTitle}</p>
             </div>
             <div className="general preview-section">
               <ul className="contact">
                 <li>
-                  {appState.email && (
+                  {appData.email && (
                     <>
                       <img src={MailImg} alt="email" />
-                      <span className="email">{appState.email}</span>
+                      <span className="email">{appData.email}</span>
                     </>
                   )}
                 </li>
                 <li>
-                  {appState.phoneNumber && (
+                  {appData.phoneNumber && (
                     <>
                       <img src={PhoneImg} alt="phone" />
                       <span className="phone-number">
-                        {appState.phoneNumber}
+                        {appData.phoneNumber}
                       </span>
                     </>
                   )}
                 </li>
                 <li>
-                  {appState.linkedIn && (
+                  {appData.linkedIn && (
                     <>
                       <img src={LinkedInImg} alt="linkedin" />
-                      <span className="linkedin-url">{appState.linkedIn}</span>
+                      <span className="linkedin-url">{appData.linkedIn}</span>
                     </>
                   )}
                 </li>
                 <li>
-                  {appState.personalSite && (
+                  {appData.personalSite && (
                     <>
                       <img src={HomeImg} alt="house" />
                       <span className="personal-site">
-                        {appState.personalSite}
+                        {appData.personalSite}
                       </span>
                     </>
                   )}
                 </li>
               </ul>
-              <p className="description">{appState.desc}</p>
+              <p className="description">{appData.desc}</p>
             </div>
             <section className="preview-section" aria-label="Education">
               <h2 className="section-title">Education</h2>
               <hr />
               <ul className="list">
                 {educationPreviewItems}
+              </ul>
+            </section>
+            <section className="preview-section" aria-label="Projects">
+              <h2 className="section-title">Projects</h2>
+              <hr />
+              <ul className="list">
+                {projectPreviewItems}
               </ul>
             </section>
             <section className="preview-section" aria-label="Work Experience">

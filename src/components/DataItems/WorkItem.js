@@ -4,7 +4,6 @@ import Button from "../Button/Button";
 import "./dataItem.css";
 
 const WorkItem = (props) => {
-  let { id, company, position, from, to, highlights } = props.itemData;
   const [isWorkOngoing, setIsWorkOngoing] = useState(false);
   const companyRef = useRef();
   const workTitleRef = useRef();
@@ -12,6 +11,7 @@ const WorkItem = (props) => {
   const timeframeToRef = useRef();
   const employmentTypeRef = useRef();
   const highlightsRef = useRef();
+  let { id, company, position, from, to, highlights } = props.itemData;
 
   const modifyWorkStatus = () => {
     setIsWorkOngoing(current => !current);
@@ -33,7 +33,7 @@ const WorkItem = (props) => {
   }
 
   return (
-    <li className="work-item data">
+    <li className="data-item">
       <hr />
       <form className="cv-form" onSubmit={submitHandler}>
         <div className="flex-row">

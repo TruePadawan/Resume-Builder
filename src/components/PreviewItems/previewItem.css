@@ -1,7 +1,13 @@
-.edu-preview-item {
+/* EDUCATION */
+.edu-preview-item,
+.work-preview-item,
+.project-preview-item {
     font-family: 'Playfair Display', serif;
     display: flex;
     flex-direction: column;
+}
+
+.edu-preview-item {
     gap: 2px;
 }
 
@@ -27,29 +33,30 @@
     font-style: italic;
 }
 
-.work-preview-item {
-    font-family: 'Playfair Display', serif;
-    display: flex;
-    flex-direction: column;
-}
-
+/* WORK */
 .work-preview-item .details {
     display: flex;
     justify-content: space-between;
 }
 
-.work-preview-item .main {
+.work-preview-item .head {
     display: flex;
-    gap: 2px;
+    flex-direction: column;
 }
 
-.work-preview-item .position {
+.work-preview-item .position,
+.project-preview-item .head {
     font-weight: 500;
     font-size: 1.2rem;
 }
 
+.work-preview-item .position-company {
+    display: flex;
+    gap: 2px;
+}
+
 .work-preview-item .company {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: rgb(78, 78, 78);
 }
 
@@ -62,9 +69,24 @@
     color: #464646;
 }
 
-.work-preview-item .highlights {
+.work-preview-item .highlights,
+.project-preview-item .desc {
     font-size: 0.9rem;
     font-weight: 300;
     font-family: 'Noto Sans JP', sans-serif;
-    margin: 3px 20px;
+    margin: 0px 20px;
+}
+
+/* PROJECTS */
+.project-preview-item .head {
+    display: flex;
+    gap: 2px;
+}
+
+.project-preview-item .tech {
+    margin-top: 4px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1rem;
+    color: #525252;
+    font-style: italic;
 }

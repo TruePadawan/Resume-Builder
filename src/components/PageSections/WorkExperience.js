@@ -106,9 +106,7 @@ const WorkExperience = (props) => {
           </div>
 
           <TextArea label="Highlights" compRef={highlightsInputRef} />
-          <Button className="add-btn" btnType="submit">
-            Add
-          </Button>
+          <Button className="add-btn" btnType="submit">Add</Button>
         </form>
         {props.children}
       </Section>
