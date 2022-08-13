@@ -1,7 +1,7 @@
 .section {
     min-width: 615px;
     max-width: 768px;
-    box-shadow: -3px -3px 6px rgb(85, 85, 85);
+    box-shadow: -3px -3px 6px rgb(139, 139, 139);
     background-color: #7E7E7E;
     border-radius: 8px;
 
@@ -12,8 +12,8 @@
 }
 
 .sectionHead {
-    color: white;
-    background-color: #676767;
+    color: rgb(0, 0, 0);
+    background-color: #ececec;
 }
 
 .sectionHead > h2 {
