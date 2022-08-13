@@ -3,21 +3,21 @@ import { InputField, TextArea } from "../InputField/InputField";
 import Button from "../Button/Button";
 
 const ProjectItem = ({ onUpdate, itemData, onDeleteBtnClicked }) => {
-    const titleRef = useRef();
-    const techRef = useRef();
-    const descRef = useRef();
-    const { title, tech, desc } = itemData;
+  const titleRef = useRef();
+  const techRef = useRef();
+  const descRef = useRef();
+  const { title, tech, desc } = itemData;
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-        const newItemData = {
-            id : itemData.id,
-            title : titleRef.current.value,
-            tech : techRef.current.value,
-            desc : descRef.current.value
-        };
-        onUpdate(newItemData);
-    }
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const newItemData = {
+      id: itemData.id,
+      title: titleRef.current.value,
+      tech: techRef.current.value,
+      desc: descRef.current.value,
+    };
+    onUpdate(newItemData);
+  };
   return (
     <li className="data-item">
       <hr />
@@ -38,9 +38,17 @@ const ProjectItem = ({ onUpdate, itemData, onDeleteBtnClicked }) => {
             placeholder={"HTML, CSS, JavaScript"}
           />
         </div>
-        <TextArea label={"Project description"} compRef={descRef} value={desc} />
-        <Button className="add-btn" btnType="submit">Update</Button>
-        <Button className="delete-btn" onClick={onDeleteBtnClicked}>Delete</Button>
+        <TextArea
+          label={"Project description"}
+          compRef={descRef}
+          value={desc}
+        />
+        <Button className="add-btn" btnType="submit">
+          Update
+        </Button>
+        <Button className="delete-btn" onClick={onDeleteBtnClicked}>
+          Delete
+        </Button>
       </form>
     </li>
   );

@@ -15,9 +15,12 @@ import Education from "./components/PageSections/Education";
 import General from "./components/PageSections/General";
 import Projects from "./components/PageSections/Projects";
 import ProjectItem from "./components/DataItems/ProjectItem";
+import ProjectPreviewItem from "./components/PreviewItems/ProjectPreviewItem";
+import Skills from "./components/PageSections/Skills";
 
 import "./css/App.css";
-import ProjectPreviewItem from "./components/PreviewItems/ProjectPreviewItem";
+import SkillItem from "./components/DataItems/SkillItem";
+import SkillPreviewItem from "./components/PreviewItems/SkillPreviewItem";
 
 const App = () => {
   const [appData, setAppData] = useState({
@@ -31,6 +34,7 @@ const App = () => {
     eduItems: [],
     workItems: [],
     projectItems: [],
+    skills: []
   });
 
   const degreeTypes = (
@@ -79,6 +83,16 @@ const App = () => {
     })
   }
 
+  const addSkillItem = (item) => {
+    setAppData((latest) => {
+      const newListOfSkills = [...latest.skills];
+      newListOfSkills.unshift(item);
+      const newState = {...latest};
+      newState.skills = newListOfSkills;
+      return newState;
+    });
+  }
+
   const updateGeneralInfo = (data) => {
     setAppData((latest) => {
       latest.fullName = data.fullName;
@@ -125,12 +139,20 @@ const App = () => {
     });
   };
 
+  const updateSkillItem = (data) => {
+    const { id } = data;
+    setAppData((latest) => {
+      const currentSkillItems = [...latest.skills];
+      let itemIndex = currentSkillItems.findIndex((item) => item.id === id);
+      currentSkillItems[itemIndex] = data;
+      const updatedState = {...latest};
+      updatedState.skills = currentSkillItems;
+      return updatedState;
+    });
+  }
+
   const getEducationItems = (data) => {
     return data.map((item) => {
-      const updateSelf = (itemData) => {
-        updateEducationItem(itemData);
-      };
-
       const deleteSelf = () => {
         removeEducationItem(item.id);
       };
@@ -140,7 +162,7 @@ const App = () => {
           itemData={item}
           key={item.id}
           degreeTypes={degreeTypes}
-          onUpdate={updateSelf}
+          onUpdate={updateEducationItem}
           onDeleteBtnClicked={deleteSelf}
         />
       );
@@ -155,9 +177,6 @@ const App = () => {
 
   const getProjectItems = (items) => {
     return items.map(item => {
-      const updateItem = (itemData) => {
-        updateProjectItem(itemData);
-      };
       const deleteItem = () => {
         removeProjectItem(item.id);
       }
@@ -165,7 +184,7 @@ const App = () => {
       return (
         <ProjectItem
           itemData={item}
-          onUpdate={updateItem}
+          onUpdate={updateProjectItem}
           onDeleteBtnClicked={deleteItem}
           key={item.id}
         />
@@ -181,19 +200,14 @@ const App = () => {
 
   const getWorkItems = (data) => {
     return data.map((item) => {
-      const updateSelf = (itemData) => {
-        updateWorkItem(itemData);
-      };
-
       const deleteSelf = () => {
         removeWorkItem(item.id);
       };
-
       return (
         <WorkItem
           itemData={item}
           key={item.id}
-          onUpdate={updateSelf}
+          onUpdate={updateWorkItem}
           onDeleteBtnClicked={deleteSelf}
         />
       );
@@ -205,6 +219,31 @@ const App = () => {
       <WorkPreviewItem itemData={item} key={item.id} />
     ));
   };
+
+  const getSkillItems = (list) => {
+    return list.map((item) => {
+      const deleteSelf = () => {
+        removeSkillItem(item.id);
+      };
+      return (
+        <SkillItem
+          onUpdate={updateSkillItem}
+          itemData={item}
+          key={item.id}
+          onDeleteBtnClicked={deleteSelf}
+        />
+      );
+    });
+  };
+
+  const getSkillPreviewItems = (list) => {
+    return list.map(item => {
+      return (
+        <SkillPreviewItem itemData={item} key={item.id} />
+      );
+    });
+  }
+
 
   const removeEducationItem = (id) => {
     setAppData((latest) => {
@@ -234,6 +273,16 @@ const App = () => {
     });
   };
 
+  const removeSkillItem = (id) => {
+    setAppData((latest) => {
+      const currentSkillItems = [...latest.skills];
+      const filteredItems = currentSkillItems.filter((item) => item.id !== id);
+      const updatedState = { ...latest };
+      updatedState.skills = filteredItems;
+      return updatedState;
+    });
+  }
+
   const generatePDFBtn = <Button className="generate-pdf">Generate PDF</Button>;
 
   const pageStyle = `
@@ -249,6 +298,8 @@ const App = () => {
   const workPreviewItems = getWorkPreviewItems(appData.workItems);
   const projectItems = getProjectItems(appData.projectItems);
   const projectPreviewItems = getProjectPreviewItems(appData.projectItems);
+  const skillItems = getSkillItems(appData.skills);
+  const skillPreviewItems = getSkillPreviewItems(appData.skills)
 
   return (
     <>
@@ -259,12 +310,19 @@ const App = () => {
           <Education addItem={addEducationItem} degreeTypes={degreeTypes}>
             <ul>{educationItems}</ul>
           </Education>
+
           <Projects addItem={addProjectItem}>
             <ul>{projectItems}</ul>
           </Projects>
+
           <WorkExperience addItem={addWorkItem}>
             <ul>{workItems}</ul>
           </WorkExperience>
+
+          <Skills addItem={addSkillItem}>
+            <ul>{skillItems}</ul>
+          </Skills>
+
           <ReactToPrint
             content={() => previewRef}
             trigger={() => generatePDFBtn}
@@ -322,21 +380,22 @@ const App = () => {
             <section className="preview-section" aria-label="Education">
               <h2 className="section-title">Education</h2>
               <hr />
-              <ul className="list">
-                {educationPreviewItems}
-              </ul>
+              <ul className="list">{educationPreviewItems}</ul>
             </section>
             <section className="preview-section" aria-label="Projects">
               <h2 className="section-title">Projects</h2>
               <hr />
-              <ul className="list">
-                {projectPreviewItems}
-              </ul>
+              <ul className="list">{projectPreviewItems}</ul>
             </section>
             <section className="preview-section" aria-label="Work Experience">
               <h2 className="section-title">Work Experience</h2>
               <hr />
               <ul className="list">{workPreviewItems}</ul>
+            </section>
+            <section className="preview-section" aria-label="Skills">
+              <h2 className="section-title">Skills</h2>
+              <hr />
+              <ul className="list">{skillPreviewItems}</ul>
             </section>
           </div>
         </section>
