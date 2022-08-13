@@ -16,6 +16,7 @@ import WorkExperience from "./components/PageSections/WorkExperience";
 
 import "./css/App.css";
 import Education from "./components/PageSections/Education";
+import General from "./components/PageSections/General";
 
 const App = () => {
   const [appState, setAppState] = useState({
@@ -30,14 +31,6 @@ const App = () => {
     workItems: [],
   });
 
-  const fullNameInputRef = useRef();
-  const jobTitleInputRef = useRef();
-  const emailInputRef = useRef();
-  const phoneInputRef = useRef();
-  const linkedinInputRef = useRef();
-  const personalSiteInputRef = useRef();
-  const descInputRef = useRef();
-
   const degreeTypes = (
     <datalist id="degrees">
       <option value={"Bachelors"} />
@@ -50,17 +43,15 @@ const App = () => {
 
   let previewRef;
 
-  const updateGeneralInfo = (e) => {
-    e.preventDefault();
-
+  const updateGeneralInfo = (data) => {
     setAppState((latest) => {
-      latest.fullName = fullNameInputRef.current.value;
-      latest.jobTitle = jobTitleInputRef.current.value;
-      latest.email = emailInputRef.current.value;
-      latest.phoneNumber = phoneInputRef.current.value;
-      latest.linkedIn = linkedinInputRef.current.value;
-      latest.personalSite = personalSiteInputRef.current.value;
-      latest.desc = descInputRef.current.value;
+      latest.fullName = data.fullName;
+      latest.jobTitle = data.jobTitle;
+      latest.email = data.email;
+      latest.phoneNumber = data.phoneNumber;
+      latest.linkedIn = data.linkedIn;
+      latest.personalSite = data.personalSite;
+      latest.desc = data.desc;
       return { ...latest };
     });
   };
@@ -208,49 +199,7 @@ const App = () => {
       <h1>Resume Builder</h1>
       <main>
         <section className="cv-data">
-          <Section sectionTitle="General Information">
-            <form className="cv-form" onSubmit={updateGeneralInfo}>
-              <div className="flex-row">
-                <InputField
-                  label="Full Name*"
-                  isRequired={true}
-                  compRef={fullNameInputRef}
-                />
-                <InputField label="Job Title" compRef={jobTitleInputRef} />
-              </div>
-              <div className="flex-row">
-                <InputField
-                  label="Email*"
-                  isRequired={true}
-                  type={"email"}
-                  compRef={emailInputRef}
-                />
-                <InputField
-                  label="Phone Number"
-                  type={"tel"}
-                  placeholder="+2349012345678"
-                  compRef={phoneInputRef}
-                />
-              </div>
-              <div className="flex-row">
-                <InputField
-                  label="LinkedIn URL"
-                  placeholder="linkedin.com/in/mary-sue"
-                  compRef={linkedinInputRef}
-                />
-                <InputField
-                  label="Personal Site"
-                  placeholder="marysue.com"
-                  compRef={personalSiteInputRef}
-                />
-              </div>
-              <TextArea label="Personal Description" compRef={descInputRef} />
-              <Button className="update-btn" btnType="submit">
-                Update
-              </Button>
-            </form>
-          </Section>
-
+          <General onUpdate={updateGeneralInfo} />
           <Education addItem={addEducationItem} degreeTypes={degreeTypes}>
             <ul>{educationItems}</ul>
           </Education>
