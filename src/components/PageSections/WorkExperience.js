@@ -22,7 +22,7 @@ const WorkExperience = (props) => {
         const company = companyInputRef.current.value;
         const position = positionInputRef.current.value;
         const from = timeframeFromInputRef.current.value;
-        const to = timeframeToInputRef.current.value;
+        let to = timeframeToInputRef.current.value;
         const employmentType = employmentTypeRef.current.value;
         const highlights = highlightsInputRef.current.value;
 

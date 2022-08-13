@@ -50,6 +50,7 @@
 
 .work-preview-item .company {
     font-size: 0.8rem;
+    color: rgb(78, 78, 78);
 }
 
 .work-preview-item .employment-type {
@@ -59,4 +60,11 @@
 
 .work-preview-item .timeframe {
     color: #464646;
+}
+
+.work-preview-item .highlights {
+    font-size: 0.9rem;
+    font-weight: 300;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: 3px 20px;
 }

@@ -65,7 +65,6 @@ const App = () => {
   };
 
   const updateGeneralInfo = (e) => {
-    console.log('gen')
     e.preventDefault();
 
     setAppState((latest) => {
@@ -180,6 +179,7 @@ const App = () => {
 
   const getWorkItems = (data) => {
     return data.map((item) => {
+      console.log(item);
       const updateSelf = (itemData) => {
         updateWorkItem(itemData);
       };
@@ -190,6 +190,7 @@ const App = () => {
 
       return (
         <WorkItem
+          key={item.id}
           itemData={item}
           updateSelf={updateSelf}
           onDeleteBtnClicked={deleteSelf}
