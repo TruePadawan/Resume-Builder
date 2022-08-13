@@ -126,6 +126,7 @@ main {
 }
 
 .contact {
+    font-family: 'Source Sans Pro', sans-serif;
     color: #373737;
     display: grid;
     grid-template-columns: repeat(2, max-content);

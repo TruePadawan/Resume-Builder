@@ -93,7 +93,6 @@
 
 /* SKILLS */
 .skill-preview-item {
-    /* font-family: 'Playfair Display', sans-serif; */
     display: flex;
     gap: 5px;
 }
