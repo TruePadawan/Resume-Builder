@@ -18,9 +18,7 @@ const WorkPreviewItem = ({ itemData }) => {
         </div>
         <p className="timeframe">{`${from} - ${to}`}</p>
       </div>
-      <ul className="highlights">
-        <li>{highlights}</li>
-      </ul>
+      <p className="highlights">{highlights}</p>
     </li>
   );
 };

@@ -377,26 +377,34 @@ const App = () => {
               </ul>
               <p className="description">{appData.desc}</p>
             </div>
-            <section className="preview-section" aria-label="Education">
-              <h2 className="section-title">Education</h2>
-              <hr />
-              <ul className="list">{educationPreviewItems}</ul>
-            </section>
-            <section className="preview-section" aria-label="Projects">
-              <h2 className="section-title">Projects</h2>
-              <hr />
-              <ul className="list">{projectPreviewItems}</ul>
-            </section>
-            <section className="preview-section" aria-label="Work Experience">
-              <h2 className="section-title">Work Experience</h2>
-              <hr />
-              <ul className="list">{workPreviewItems}</ul>
-            </section>
-            <section className="preview-section" aria-label="Skills">
-              <h2 className="section-title">Skills</h2>
-              <hr />
-              <ul className="list">{skillPreviewItems}</ul>
-            </section>
+            {educationPreviewItems.length > 0 && (
+              <section className="preview-section" aria-label="Education">
+                <h2 className="section-title">Education</h2>
+                <hr />
+                <ul className="list">{educationPreviewItems}</ul>
+              </section>
+            )}
+            {projectPreviewItems.length > 0 && (
+              <section className="preview-section" aria-label="Projects">
+                <h2 className="section-title">Projects</h2>
+                <hr />
+                <ul className="list">{projectPreviewItems}</ul>
+              </section>
+            )}
+            {workPreviewItems.length > 0 && (
+              <section className="preview-section" aria-label="Work Experience">
+                <h2 className="section-title">Work Experience</h2>
+                <hr />
+                <ul className="list">{workPreviewItems}</ul>
+              </section>
+            )}
+            {skillPreviewItems.length > 0 && (
+              <section className="preview-section" aria-label="Skills">
+                <h2 className="section-title">Skills</h2>
+                <hr />
+                <ul className="list">{skillPreviewItems}</ul>
+              </section>
+            )}
           </div>
         </section>
       </main>

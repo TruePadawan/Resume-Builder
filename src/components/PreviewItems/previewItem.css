@@ -2,7 +2,7 @@
 .edu-preview-item,
 .work-preview-item,
 .project-preview-item {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Source Sans Pro', sans-serif;
     display: flex;
     flex-direction: column;
 }
@@ -47,7 +47,7 @@
 .work-preview-item .position,
 .project-preview-item .head {
     font-weight: 500;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
 
 .work-preview-item .position-company {
@@ -56,13 +56,12 @@
 }
 
 .work-preview-item .company {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: rgb(78, 78, 78);
 }
 
 .work-preview-item .employment-type {
-    margin-top: 3px;
-    font-family: 'Playfair Display SC', sans-serif;
+    margin-top: 6px;
 }
 
 .work-preview-item .timeframe {
@@ -71,6 +70,7 @@
 
 .work-preview-item .highlights,
 .project-preview-item .desc {
+    white-space: pre-wrap;
     font-size: 0.9rem;
     font-weight: 300;
     font-family: 'Noto Sans JP', sans-serif;
@@ -95,6 +95,7 @@
 .skill-preview-item {
     display: flex;
     gap: 5px;
+    font-size: 1.1rem;
 }
 
 .skill-preview-item .category {

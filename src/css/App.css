@@ -142,20 +142,22 @@ main {
 }
 
 .description {
+    white-space: pre-wrap;
     margin: 1% auto 0 auto;
     text-align: justify;
 }
 
 .section-title {
-    font-family: 'Playfair Display SC', serif;
+    font-family: 'Source Sans Pro', sans-serif;
     font-weight: normal;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }
 
 .list {
+    padding: 8px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 1rem;
 }
 
 .work-ongoing > label {

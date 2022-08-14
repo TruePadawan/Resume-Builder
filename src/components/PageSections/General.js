@@ -5,7 +5,7 @@ import Section from "../Section/Section";
 
 const General = ({ onUpdate }) => {
   const fullNameInputRef = useRef();
-  const jobTitleInputRef = useRef();
+  const locationInputRef = useRef();
   const emailInputRef = useRef();
   const phoneInputRef = useRef();
   const linkedinInputRef = useRef();
@@ -17,7 +17,7 @@ const General = ({ onUpdate }) => {
 
     const data = {
         fullName : fullNameInputRef.current.value,
-        jobTitle : jobTitleInputRef.current.value,
+        jobTitle : locationInputRef.current.value,
         email : emailInputRef.current.value,
         phoneNumber : phoneInputRef.current.value,
         linkedIn : linkedinInputRef.current.value,
@@ -36,7 +36,7 @@ const General = ({ onUpdate }) => {
             isRequired={true}
             compRef={fullNameInputRef}
           />
-          <InputField label="Job Title" compRef={jobTitleInputRef} />
+          <InputField label="Location" compRef={locationInputRef} placeholder={"Lagos, Nigeria"} />
         </div>
         <div className="flex-row">
           <InputField
